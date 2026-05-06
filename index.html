@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>แผนอาหารคลีน 30 วัน</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1C1C1E;
+  --paper: #F5F0E8;
+  --cream: #EDE7D9;
+  --rule: #DDD5C5;
+  --green: #2D5A3D;
+  --green-mid: #4A7A5A;
+  --green-pale: #B8D4BC;
+  --green-wash: #EAF2EB;
+  --amber: #B8731F;
+  --amber-pale: #F5E6CE;
+  --red: #8B3A3A;
+  --red-pale: #F5EAEA;
+  --blue: #2A527A;
+  --blue-pale: #E3EDF5;
+  --purple: #5A3A7A;
+  --purple-pale: #EDE8F5;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans Thai',sans-serif;background:var(--paper);color:var(--ink);min-height:100vh;}
+
+/* HEADER */
+.header{background:var(--green);padding:44px 20px 32px;text-align:center;position:relative;overflow:hidden;}
+.header::before{content:'';position:absolute;top:-80px;right:-80px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,0.04);}
+.header::after{content:'';position:absolute;bottom:-50px;left:-50px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,0.03);}
+.header-tag{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--green-pale);margin-bottom:10px;}
+.header h1{font-family:'DM Serif Display',serif;font-size:clamp(30px,8vw,52px);color:#fff;line-height:1.1;position:relative;}
+.header h1 em{font-style:italic;color:#9ECFA8;}
+.header-sub{color:rgba(255,255,255,0.55);font-size:13px;margin-top:8px;font-weight:300;position:relative;}
+
+/* TOP NAV */
+.top-nav{background:var(--ink);display:flex;overflow-x:auto;scrollbar-width:none;gap:0;border-bottom:1px solid #333;}
+.top-nav::-webkit-scrollbar{display:none;}
+.tnav-btn{flex-shrink:0;background:none;border:none;color:rgba(255,255,255,0.45);font-family:'Noto Sans Thai',sans-serif;font-size:12px;padding:13px 16px;cursor:pointer;transition:all 0.2s;border-bottom:2px solid transparent;white-space:nowrap;}
+.tnav-btn:hover{color:rgba(255,255,255,0.8);}
+.tnav-btn.active{color:#fff;border-bottom-color:#9ECFA8;}
+
+/* WEEK NAV */
+.week-nav{background:#fff;border-bottom:1px solid var(--rule);display:flex;overflow-x:auto;scrollbar-width:none;padding:0 12px;}
+.week-nav::-webkit-scrollbar{display:none;}
+.wnav-btn{flex-shrink:0;background:none;border:none;color:#888;font-family:'Noto Sans Thai',sans-serif;font-size:12px;font-weight:600;padding:10px 14px;cursor:pointer;transition:all 0.2s;border-bottom:2px solid transparent;white-space:nowrap;}
+.wnav-btn.active{color:var(--green);border-bottom-color:var(--green);}
+
+/* CONTENT */
+.content{max-width:520px;margin:0 auto;padding:20px 14px 80px;}
+.view{display:none;animation:up 0.2s ease;}
+.view.active{display:block;}
+@keyframes up{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+/* WEEK BAND */
+.week-band{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;margin-bottom:16px;}
+.wband-num{font-family:'DM Serif Display',serif;font-size:40px;line-height:1;opacity:0.25;color:#fff;}
+.wband-text h2{font-size:16px;font-weight:700;color:#fff;}
+.wband-text p{font-size:11px;color:rgba(255,255,255,0.65);margin-top:2px;}
+
+/* DAY CARD */
+.day-card{background:#fff;border-radius:14px;margin-bottom:10px;overflow:hidden;border:1px solid var(--rule);box-shadow:0 1px 6px rgba(0,0,0,0.05);}
+.day-hdr{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;cursor:pointer;user-select:none;transition:background 0.15s;}
+.day-hdr:hover{background:var(--green-wash);}
+.day-left{display:flex;align-items:center;gap:10px;}
+.day-pip{width:7px;height:7px;border-radius:50%;background:var(--green);}
+.day-lbl{font-size:12px;font-weight:700;color:var(--green);letter-spacing:0.5px;}
+.day-prev{font-size:11px;color:#999;margin-top:1px;}
+.day-arr{font-size:10px;color:#ccc;transition:transform 0.2s;}
+.day-arr.open{transform:rotate(180deg);}
+.day-body{display:none;border-top:1px solid var(--rule);}
+.day-body.open{display:block;}
+
+/* MEAL BLOCK */
+.meal-block{border-bottom:1px solid #F0F0F0;padding:14px 16px;}
+.meal-block:last-child{border-bottom:none;}
+.meal-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:10px;}
+.meal-left{}
+.meal-time-badge{display:inline-block;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;padding:3px 8px;border-radius:6px;margin-bottom:5px;}
+.badge-morning{background:var(--amber-pale);color:var(--amber);}
+.badge-lunch{background:var(--green-wash);color:var(--green);}
+.badge-dinner{background:var(--blue-pale);color:var(--blue);}
+.badge-snack{background:#F5F5F5;color:#888;}
+.meal-name-main{font-size:14px;font-weight:700;color:var(--ink);line-height:1.35;}
+
+.macro-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;}
+.chip{font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;}
+.chip-kcal{background:#E8F0FD;color:#2A527A;}
+.chip-p{background:var(--red-pale);color:var(--red);}
+.chip-c{background:var(--amber-pale);color:var(--amber);}
+.chip-f{background:var(--purple-pale);color:var(--purple);}
+
+/* INGREDIENTS TABLE */
+.section-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;color:#aaa;margin:10px 0 6px;}
+.ing-table{width:100%;border-collapse:collapse;}
+.ing-table tr{border-bottom:1px solid #F5F5F5;}
+.ing-table tr:last-child{border-bottom:none;}
+.ing-table td{padding:5px 4px;font-size:12px;vertical-align:top;}
+.ing-name{color:var(--ink);font-weight:500;width:55%;}
+.ing-qty{color:var(--green);font-weight:700;text-align:right;white-space:nowrap;}
+.ing-cal{color:#bbb;text-align:right;white-space:nowrap;font-size:11px;}
+
+/* STEPS */
+.steps-list{list-style:none;margin-top:4px;}
+.steps-list li{display:flex;gap:9px;padding:6px 0;font-size:12px;line-height:1.6;color:#444;border-bottom:1px dashed #F0F0F0;}
+.steps-list li:last-child{border-bottom:none;}
+.step-n{min-width:20px;height:20px;background:var(--green);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;margin-top:1px;flex-shrink:0;}
+
+/* CHEF TIP */
+.chef-tip{background:linear-gradient(135deg,#FFF8EE,#FFF3E0);border-left:3px solid var(--amber);border-radius:0 8px 8px 0;padding:8px 12px;font-size:12px;color:#7A5010;margin-top:8px;line-height:1.6;}
+.chef-tip b{color:var(--amber);}
+
+/* OVERVIEW */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;}
+.stat-box{background:#fff;border-radius:12px;padding:14px 10px;text-align:center;border:1px solid var(--rule);}
+.stat-n{font-family:'DM Serif Display',serif;font-size:28px;color:var(--green);}
+.stat-l{font-size:11px;color:#888;margin-top:2px;}
+.info-card{background:#fff;border-radius:14px;padding:16px;margin-bottom:12px;border:1px solid var(--rule);}
+.info-card h3{font-size:13px;font-weight:700;margin-bottom:10px;color:var(--ink);}
+.info-row{display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:1px dashed var(--rule);color:#555;}
+.info-row:last-child{border-bottom:none;}
+.info-row strong{color:var(--ink);}
+.green-card{background:var(--green);border-radius:14px;padding:18px;margin-bottom:12px;color:#fff;}
+.green-card h3{font-size:14px;font-weight:700;margin-bottom:7px;}
+.green-card p{font-size:12px;opacity:0.75;line-height:1.7;}
+
+/* GROCERY */
+.g-card{background:#fff;border-radius:14px;margin-bottom:12px;border:1px solid var(--rule);overflow:hidden;}
+.g-cat{padding:11px 14px;border-bottom:1px solid var(--rule);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;color:#888;}
+.g-items{padding:12px 14px;display:flex;flex-wrap:wrap;gap:7px;}
+.g-tag{font-size:12px;padding:5px 11px;border-radius:18px;font-weight:500;}
+.gt-veg{background:var(--green-wash);color:var(--green);}
+.gt-prot{background:var(--red-pale);color:var(--red);}
+.gt-carb{background:var(--amber-pale);color:var(--amber);}
+.gt-pantry{background:var(--blue-pale);color:var(--blue);}
+.budget-tip{background:var(--green-wash);border:1px solid var(--green-pale);border-radius:12px;padding:12px 14px;font-size:12px;color:var(--green);margin-bottom:14px;line-height:1.6;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-tag">Clean Eating · 30 Days · Full Recipes</div>
+  <h1>แผน<em>คลีน</em> 30 วัน</h1>
+  <p class="header-sub">วิธีทำ + ชั่งตวงวัด + โภชนาการทุกมื้อ</p>
+</div>
+
+<div class="top-nav" id="topNav">
+  <button class="tnav-btn active" onclick="showSection('overview',this)">📊 ภาพรวม</button>
+  <button class="tnav-btn" onclick="showSection('meals',this)">🍽 เมนูรายวัน</button>
+  <button class="tnav-btn" onclick="showSection('grocery',this)">🛒 ของต้องซื้อ</button>
+</div>
+
+<div class="content">
+
+<!-- OVERVIEW -->
+<div class="view active" id="overview">
+  <div class="stat-grid">
+    <div class="stat-box"><div class="stat-n">30</div><div class="stat-l">วัน</div></div>
+    <div class="stat-box"><div class="stat-n">~1,600</div><div class="stat-l">kcal/วัน</div></div>
+    <div class="stat-box"><div class="stat-n">120g</div><div class="stat-l">โปรตีน/วัน</div></div>
+  </div>
+  <div class="green-card">
+    <h3>🎯 หลักการแผนนี้</h3>
+    <p>โปรตีนสูง 30% · คาร์บดี 45% · ไขมันดี 25% ทุกเมนูทำใน 15–25 นาที วัตถุดิบซ้ำกันข้ามวันเพื่อประหยัดและลดขยะ ซื้อของอาทิตย์ละครั้ง Meal Prep วันอาทิตย์ลดงาน 60%</p>
+  </div>
+  <div class="info-card">
+    <h3>📊 สารอาหารเฉลี่ยต่อวัน</h3>
+    <div class="info-row"><span>แคลอรี่</span><strong>1,500–1,700 kcal</strong></div>
+    <div class="info-row"><span>โปรตีน</span><strong>110–130g (30%)</strong></div>
+    <div class="info-row"><span>คาร์บอฮยเดรต</span><strong>160–180g (45%)</strong></div>
+    <div class="info-row"><span>ไขมัน</span><strong>45–55g (25%)</strong></div>
+    <div class="info-row"><span>ไฟเบอร์</span><strong>25–35g</strong></div>
+    <div class="info-row"><span>โซเดียม</span><strong>&lt;1,800mg</strong></div>
+  </div>
+  <div class="info-card">
+    <h3>⚡ Meal Prep วันอาทิตย์ (ประหยัดเวลาทั้งอาทิตย์)</h3>
+    <div class="info-row"><span>หุงข้าวกล้อง</span><strong>ข้าวสาร 2 ถ้วย → ข้าวสุก ~4 ถ้วย</strong></div>
+    <div class="info-row"><span>ต้มไข่</span><strong>6 ฟอง แช่ตู้เย็นได้ 5 วัน</strong></div>
+    <div class="info-row"><span>อกไก่ย่าง</span><strong>500g อบ 180°C 25 นาที แช่ได้ 4 วัน</strong></div>
+    <div class="info-row"><span>ผักหั่น</span><strong>ล้าง หั่น ใส่กล่องปิดฝา</strong></div>
+    <div class="info-row"><span>Overnight Oats</span><strong>แช่ไว้คืนก่อน กินเช้าได้เลย</strong></div>
+  </div>
+</div>
+
+<!-- MEALS -->
+<div class="view" id="meals">
+  <div class="week-nav" id="weekNav">
+    <button class="wnav-btn active" onclick="showWeek('w1',this)">อาทิตย์ 1</button>
+    <button class="wnav-btn" onclick="showWeek('w2',this)">อาทิตย์ 2</button>
+    <button class="wnav-btn" onclick="showWeek('w3',this)">อาทิตย์ 3</button>
+    <button class="wnav-btn" onclick="showWeek('w4',this)">อาทิตย์ 4</button>
+  </div>
+  <div style="height:16px"></div>
+  <div id="w1" class="week-view active"></div>
+  <div id="w2" class="week-view"></div>
+  <div id="w3" class="week-view"></div>
+  <div id="w4" class="week-view"></div>
+</div>
+
+<!-- GROCERY -->
+<div class="view" id="grocery">
+  <div class="week-nav" id="groceryNav">
+    <button class="wnav-btn active" onclick="showGrocery('g1',this)">อาทิตย์ 1</button>
+    <button class="wnav-btn" onclick="showGrocery('g2',this)">อาทิตย์ 2</button>
+    <button class="wnav-btn" onclick="showGrocery('g3',this)">อาทิตย์ 3</button>
+    <button class="wnav-btn" onclick="showGrocery('g4',this)">อาทิตย์ 4</button>
+  </div>
+  <div style="height:16px"></div>
+  <div id="g1" class="grocery-view active"></div>
+  <div id="g2" class="grocery-view" style="display:none"></div>
+  <div id="g3" class="grocery-view" style="display:none"></div>
+  <div id="g4" class="grocery-view" style="display:none"></div>
+</div>
+
+</div>
+
+<script>
+const DAY_TH = ['จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','อาทิตย์'];
+const WEEK_COLORS = ['#2D5A3D','#5A3D2D','#3D2D5A','#2D4A5A'];
+
+// ─── FULL MEAL DATA ────────────────────────────────────────────────
+const mealDB = {
+
+  // ══════════════════ WEEK 1 ══════════════════
+  w1d1:{
+    preview:'โอ๊ตกล้วย · อกไก่ย่าง · ปลานึ่งมะนาว',
+    meals:[
+      {
+        time:'เช้า',badge:'morning',
+        name:'โอ๊ตมีลกล้วยหอม + นมจืด',
+        kcal:305,protein:12,carb:52,fat:5,
+        ingredients:[
+          {n:'โอ๊ต (Rolled Oats)',q:'50g (½ ถ้วย)',c:180},
+          {n:'กล้วยน้ำว้าสุก',q:'1 ลูก (~80g)',c:72},
+          {n:'นมจืดพร่องมันเนย',q:'150ml (½ ถ้วย+)',c:53},
+        ],
+        steps:['ใส่โอ๊ต 50g + นม 150ml + น้ำ 100ml ลงหม้อ','ตั้งไฟกลาง คนตลอด ประมาณ 5 นาที จนข้น','เทใส่ชาม วางกล้วยหั่นแว่นด้านบน'],
+        tip:'แช่โอ๊ตกับนมในตู้เย็นตั้งแต่คืน (Overnight Oats) เช้าหยิบกินได้เลย ไม่ต้องใช้ไฟ'
+      },
+      {
+        time:'กลางวัน',badge:'lunch',
+        name:'ข้าวกล้อง + อกไก่ย่างกระเทียม + แตงกวา',
+        kcal:448,protein:40,carb:48,fat:8,
+        ingredients:[
+          {n:'อกไก่ (ไม่มีหนัง)',q:'150g',c:165},
+          {n:'ข้าวกล้องสุก',q:'150g (¾ ถ้วย)',c:165},
+          {n:'แตงกวา',q:'100g (½ ผล)',c:16},
+          {n:'กระเทียมสับ',q:'2 กลีบ (10g)',c:15},
+          {n:'น้ำมะนาว',q:'1 ช้อนโต๊ะ (15ml)',c:4},
+          {n:'น้ำมันมะกอก',q:'1 ช้อนชา (5ml)',c:40},
+          {n:'พริกไทยดำ',q:'½ ช้อนชา',c:3},
+        ],
+        steps:[
+          'หมักอกไก่: ผสมกระเทียมสับ + มะนาว + พริกไทย + น้ำมันมะกอก คลุกเคล้า หมักอย่างน้อย 15 นาที (หรือข้ามคืน)',
+          'ตั้งกระทะ non-stick ไฟปานกลาง-สูง ไม่ต้องใส่น้ำมันเพิ่ม',
+          'ย่างอกไก่ด้านละ 5–6 นาที จนสุกทั่ว (อุณหภูมิภายใน 74°C หรือใช้ส้อมแทงดูน้ำใส)',
+          'พักไก่ 3 นาที แล้วหั่น เสิร์ฟกับข้าวกล้องและแตงกวา',
+        ],
+        tip:'ย่างอกไก่คราวเดียว 3–4 ชิ้น เก็บในตู้เย็นได้ 4 วัน ประหยัดเวลามาก'
+      },
+      {
+        time:'เย็น',badge:'dinner',
+        name:'ปลากะพงนึ่งมะนาว + ผักกาดขาวต้ม',
+        kcal:282,protein:35,carb:10,fat:9,
+        ingredients:[
+          {n:'ปลากะพงขาว (สด)',q:'200g (1 ชิ้น)',c:166},
+          {n:'ผักกาดขาว',q:'150g (2 ใบใหญ่)',c:21},
+          {n:'น้ำมะนาว',q:'2 ช้อนโต๊ะ (30ml)',c:8},
+          {n:'กระเทียมสับ',q:'3 กลีบ (15g)',c:20},
+          {n:'พริกขี้หนู',q:'2 เม็ด',c:6},
+          {n:'น้ำปลา',q:'1 ช้อนชา (5ml)',c:2},
+          {n:'ตะไคร้',q:'1 ต้น ทุบ',c:10},
+        ],
+        steps:[
+          'วางตะไคร้และขิงสักเล็กน้อยในจานนึ่ง วางปลาทับ',
+          'ทำน้ำจิ้ม: ผสมมะนาว + น้ำปลา + กระเทียมสับ + พริกสับ คนให้เข้ากัน',
+          'นึ่งปลาในหม้อนึ่ง 12–15 นาที (ปลาสุกเมื่อเนื้อแยกตัวออกได้ง่าย)',
+          'ต้มผักกาดขาวในน้ำเดือด 3 นาที จนนุ่ม',
+          'ราดน้ำจิ้มบนปลา เสิร์ฟทันที',
+        ],
+        tip:'ปลากะพงเนื้อแน่ ไม่ค่อยคาว เหมาะกับการนึ่ง ถ้าหาไม่ได้ใช้ปลานิลแทนได้'
+      },
+      {
+        time:'ของว่าง',badge:'snack',
+        name:'ฝรั่ง 1 ลูก + กรีกโยเกิร์ต',
+        kcal:138,protein:7,carb:22,fat:2,
+        ingredients:[
+          {n:'ฝรั่ง',q:'150g (1 ลูกกลาง)',c:51},
+          {n:'กรีกโยเกิร์ตรสธรรมชาติ',q:'100g',c:87},
+        ],
+        steps:['หั่นฝรั่งเป็นชิ้น เสิร์ฟคู่กับโยเกิร์ต'],
+        tip:''
+      },
+    ]
+  },
+
+  w1d2:{
+    preview:'ไข่ต้ม+ผักลวก · สลัดทูน่า · ซุปไก่ผัก',
+    meals:[
+      {
+        time:'เช้า',badge:'morning',
+        name:'ไข่ต้ม 2 ฟอง + บรอกโคลีลวก',
+        kcal:198,protein:16,carb:8,fat:11,
+        ingredients:[
+          {n:'ไข่ไก่',q:'2 ฟอง (~120g)',c:143},
+          {n:'บรอกโคลี',q:'100g',c:34},
+          {n:'น้ำมะนาว',q:'1 ช้อนชา',c:4},
+          {n:'พริกไทยดำ',q:'นิดหน่อย',c:2},
+          {n:'เกลือทะเล',q:'1 หยิบมือ',c:0},
+        ],
+        steps:[
+          'ต้มน้ำให้เดือด ใส่ไข่ ต้ม 8 นาที (ไข่สุกพอดี) หรือ 10 นาที (สุกมาก)',
+          'นำไข่แช่น้ำเย็นทันที 2 นาที ปอกเปลือกง่ายขึ้น',
+          'ลวกบรอกโคลีในน้ำเดือดเดียวกัน 2–3 นาที จนเขียวสดและกรอบนุ่ม',
+          'บีบมะนาว โรยพริกไทย เสิร์ฟ',
+        ],
+        tip:'ต้มไข่ 6 ฟองพร้อมกัน เก็บตู้เย็นใช้ได้ 4–5 วัน'
+      },
+      {
+        time:'กลางวัน',badge:'lunch',
+        name:'สลัดทูน่ากระป๋อง + ผักสลัด + มะเขือเทศ',
+        kcal:348,protein:32,carb:18,fat:14,
+        ingredients:[
+          {n:'ทูน่ากระป๋องในน้ำ',q:'1 กระป๋อง (130g สะเด็ดน้ำ)',c:130},
+          {n:'ผักสลัด (มิกซ์)',q:'80g',c:14},
+          {n:'มะเขือเทศเชอร์รี่',q:'8 ลูก (~80g)',c:25},
+          {n:'แตงกวา',q:'½ ผล (~70g)',c:11},
+          {n:'น้ำมันมะกอก',q:'1 ช้อนโต๊ะ (15ml)',c:119},
+          {n:'น้ำมะนาว',q:'1½ ช้อนโต๊ะ',c:6},
+          {n:'พริกไทยดำ',q:'½ ช้อนชา',c:3},
+        ],
+        steps:[
+          'สะเด็ดน้ำทูน่าในกระป๋องให้แห้ง',
+          'ทำน้ำสลัด: ผสมน้ำมันมะกอก + มะนาว + พริกไทย + เกลือเล็กน้อย',
+          'จัดผักสลัด มะเขือเทศ แตงกวาในชาม วางทูน่าด้านบน',
+          'ราดน้ำสลัดก่อนกิน คลุกเบาๆ',
+        ],
+        tip:'ทูน่าในน้ำดีกว่าในน้ำมันมาก แคลอรี่น้อยกว่าเกือบเท่าตัว'
+      },
+      {
+        time:'เย็น',badge:'dinner',
+        name:'ซุปไก่ผัก (ไก่+แครอท+ฟักทอง+ข้าวโพด)',
+        kcal:318,protein:30,carb:28,fat:7,
+        ingredients:[
+          {n:'อกไก่หั่นชิ้น',q:'120g',c:132},
+          {n:'แครอทหั่นชิ้น',q:'80g',c:33},
+          {n:'ฟักทองหั่นชิ้น',q:'100g',c:49},
+          {n:'ข้าวโพดหั่นท่อน',q:'½ ฝัก (~80g)',c:66},
+          {n:'ต้นหอมหั่น',q:'2 ต้น',c:6},
+          {n:'น้ำเปล่า/สต็อก',q:'600ml',c:0},
+          {n:'เกลือทะเล',q:'½ ช้อนชา',c:0},
+          {n:'พริกไทยดำ',q:'½ ช้อนชา',c:3},
+        ],
+        steps:[
+          'ต้มน้ำ 600ml ในหม้อให้เดือด',
+          'ใส่ไก่ลงไปก่อน ต้มจนไก่เริ่มสุก (~5 นาที) ช้อนฟองออก',
+          'ใส่แครอท ฟักทอง ข้าวโพด ต้มต่อ 15 นาที จนผักนุ่ม',
+          'ปรุงรสด้วยเกลือ พริกไทย โรยต้นหอม',
+        ],
+        tip:'ทำปริมาณสองเท่า เก็บตู้เย็นได้ 3 วัน อุ่นกินง่ายมาก'
+      },
+      {
+        time:'ของว่าง',badge:'snack',
+        name:'อัลมอนด์ 15 เม็ด + กล้วยน้ำว้า',
+        kcal:178,protein:5,carb:22,fat:10,
+        ingredients:[
+          {n:'อัลมอนด์อบไม่เติมน้ำตาล',q:'15 เม็ด (~20g)',c:116},
+          {n:'กล้วยน้ำว้า',q:'1 ลูก (~80g)',c:72},
+        ],
+        steps:['หยิบกินได้เลย'],tip:''
+      },
+    ]
+  },
+
+  w1d3:{
+    preview:'สมูทตี้กล้วย · ข้าวกล้อง+ไข่ดาว · หมูสันในอบ',
+    meals:[
+      {
+        time:'เช้า',badge:'morning',
+        name:'สมูทตี้กล้วย + นม + โอ๊ต',
+        kcal:278,protein:11,carb:46,fat:5,
+        ingredients:[
+          {n:'กล้วยน้ำว้าสุก',q:'1½ ลูก (~120g)',c:108},
+          {n:'นมจืดพร่องมันเนย',q:'200ml',c:70},
+          {n:'โอ๊ต',q:'2 ช้อนโต๊ะ (20g)',c:72},
+          {n:'น้ำแข็ง',q:'½ ถ้วย',c:0},
+        ],
+        steps:['ใส่ทุกอย่างลงในเครื่องปั่น','ปั่น 1 นาที จนเนียนละเอียด','เทใส่แก้ว ดื่มทันที'],
+        tip:'ถ้าอยากโปรตีนเพิ่ม ใส่กรีกโยเกิร์ต 2 ช้อนโต๊ะ ได้โปรตีนเพิ่ม 4g'
+      },
+      {
+        time:'กลางวัน',badge:'lunch',
+        name:'ข้าวกล้อง + ไข่ดาว 2 ฟอง + ผักนึ่ง',
+        kcal:402,protein:18,carb:50,fat:14,
+        ingredients:[
+          {n:'ข้าวกล้องสุก',q:'150g (¾ ถ้วย)',c:165},
+          {n:'ไข่ไก่',q:'2 ฟอง',c:143},
+          {n:'บรอกโคลี + แครอท',q:'รวม 120g',c:45},
+          {n:'น้ำมันมะกอก',q:'1 ช้อนชา',c:40},
+          {n:'ซีอิ๊วขาว',q:'½ ช้อนชา',c:3},
+        ],
+        steps:[
+          'นึ่งบรอกโคลีและแครอทหั่นชิ้น 5 นาทีในหม้อนึ่ง',
+          'ตั้งกระทะน้ำมันเล็กน้อย ไฟกลาง ทอดไข่ดาวจนขาวสุก ไข่แดงยังเหลว',
+          'จัดข้าวกล้อง ผักนึ่ง และไข่ดาวในจาน โรยซีอิ๊วขาวเล็กน้อย',
+        ],
+        tip:''
+      },
+      {
+        time:'เย็น',badge:'dinner',
+        name:'หมูสันในอบสมุนไพร + มันเทศอบ',
+        kcal:378,protein:34,carb:30,fat:11,
+        ingredients:[
+          {n:'หมูสันใน (Tenderloin)',q:'150g',c:187},
+          {n:'มันเทศ',q:'150g',c:129},
+          {n:'กระเทียมสับ',q:'3 กลีบ',c:13},
+          {n:'โรสแมรี่/โหระพา (ถ้ามี)',q:'1 ช้อนชา',c:2},
+          {n:'น้ำมันมะกอก',q:'1 ช้อนชา',c:40},
+          {n:'พริกไทยดำ',q:'½ ช้อนชา',c:3},
+          {n:'เกลือทะเล',q:'¼ ช้อนชา',c:0},
+        ],
+        steps:[
+          'ตั้งเตาอบ 180°C (356°F)',
+          'หมักหมูสันใน: ทาน้ำมันมะกอก + กระเทียมสับ + สมุนไพร + เกลือ + พริกไทย',
+          'หั่นมันเทศเป็นชิ้นหนา 2 ซม. ทาน้ำมันมะกอกเล็กน้อย โรยเกลือ',
+          'วางทั้งหมดบนถาดอบ อบ 25 นาที (หมูถึง 63°C ภายใน)',
+          'พักหมู 5 นาที ก่อนหั่น เนื้อจะนุ่มขึ้น',
+        ],
+        tip:'อบทุกอย่างพร้อมกันในถาดเดียว ล้างถาดเดียว — ขี้เกียจได้มาก 😄'
+      },
+      {
+        time:'ของว่าง',badge:'snack',
+        name:'แตงโม 2 ชิ้น',
+        kcal:84,protein:2,carb:21,fat:0,
+        ingredients:[{n:'แตงโม',q:'300g (2 ชิ้นใหญ่)',c:84}],
+        steps:['หั่นกินได้เลย'],tip:''
+      },
+    ]
+  },
+
+  w1d4:{
+    preview:'โอ๊ตแอปเปิ้ล · ก๋วยเตี๋ยวต้มยำไก่ · เต้าหู้ผัดผัก',
+    meals:[
+      {
+        time:'เช้า',badge:'morning',
+        name:'โอ๊ตมีล + แอปเปิ้ลหั่น + อบเชย',
+        kcal:292,protein:9,carb:54,fat:5,
+        ingredients:[
+          {n:'โอ๊ต',q:'50g (½ ถ้วย)',c:180},
+          {n:'แอปเปิ้ล',q:'½ ลูก (~80g)',c:42},
+          {n:'อบเชยป่น',q:'¼ ช้อนชา',c:2},
+          {n:'นมจืด',q:'150ml',c:53},
+          {n:'น้ำผึ้ง (ถ้าต้องการ)',q:'1 ช้อนชา',c:21},
+        ],
+        steps:[
+          'ต้มโอ๊ตกับนม + น้ำ 100ml ไฟกลาง คนตลอด ~5 นาที',
+          'หั่นแอปเปิ้ลเป็นก้อน ใส่ด้านบน',
+          'โรยอบเชย หยดน้ำผึ้ง',
+        ],
+        tip:''
+      },
+      {
+        time:'กลางวัน',badge:'lunch',
+        name:'ก๋วยเตี๋ยวเส้นเล็กน้ำใส ไก่สับ + เห็ด',
+        kcal:372,protein:28,carb:48,fat:6,
+        ingredients:[
+          {n:'เส้นเล็ก (แห้ง)',q:'60g',c:210},
+          {n:'ไก่สับ (อกไก่)',q:'100g',c:110},
+          {n:'เห็ดฟาง',q:'80g',c:22},
+          {n:'ต้นหอม + ผักชี',q:'2 ต้น',c:5},
+          {n:'กระเทียมเจียว',q:'1 ช้อนชา',c:15},
+          {n:'น้ำสต็อกไก่/น้ำเปล่า',q:'400ml',c:5},
+          {n:'น้ำปลา',q:'1 ช้อนชา',c:3},
+          {n:'น้ำมะนาว',q:'1 ช้อนโต๊ะ',c:4},
+        ],
+        steps:[
+          'ลวกเส้นเล็กในน้ำเดือด 2–3 นาที สะเด็ดน้ำ ใส่ชาม',
+          'ต้มน้ำสต็อก ใส่ไก่สับ คนให้ไก่แยกกัน ต้ม 5 นาที',
+          'ใส่เห็ดฟาง ต้มต่อ 2 นาที ปรุงรสด้วยน้ำปลา + มะนาว',
+          'ราดน้ำซุปบนเส้น โรยต้นหอม ผักชี กระเทียมเจียว',
+        ],
+        tip:'ทำกระเทียมเจียวเก็บไว้ในขวดแก้ว ใช้ได้หลายวัน โรยหน้าได้หลายเมนู'
+      },
+      {
+        time:'เย็น',badge:'dinner',
+        name:'เต้าหู้แข็งผัดพริกหวาน + บรอกโคลีลวก',
+        kcal:298,protein:20,carb:18,fat:15,
+        ingredients:[
+          {n:'เต้าหู้แข็ง',q:'150g',c:120},
+          {n:'พริกหยวกแดง/เหลือง',q:'1 ลูก (~100g)',c:31},
+          {n:'บรอกโคลี',q:'100g',c:34},
+          {n:'น้ำมันมะกอก',q:'1½ ช้อนชา',c:60},
+          {n:'ซีอิ๊วขาว',q:'1 ช้อนชา',c:6},
+          {n:'กระเทียมสับ',q:'2 กลีบ',c:13},
+          {n:'งาขาวคั่ว',q:'1 ช้อนชา',c:17},
+        ],
+        steps:[
+          'กดเต้าหู้ด้วยผ้าขาวบาง 10 นาที เพื่อดูดน้ำออก จะกรอบกว่ามาก',
+          'หั่นเต้าหู้เป็นก้อน 2×2 ซม.',
+          'ลวกบรอกโคลีในน้ำเดือด 3 นาที สะเด็ดน้ำ พักไว้',
+          'ตั้งกระทะน้ำมัน ไฟกลาง-สูง ทอดเต้าหู้จนเหลืองทุกด้าน (~6 นาที)',
+          'ใส่กระเทียม พริกหยวก ผัด 2 นาที ใส่ซีอิ๊วขาว คลุกเคล้า',
+          'เสิร์ฟกับบรอกโคลีลวก โรยงา',
+        ],
+        tip:'เต้าหู้ที่กดน้ำออกแล้วจะไม่กระเด็นน้ำมันตอนทอด และกรอบอร่อยกว่ามาก'
+      },
+      {
+        time:'ของว่าง',badge:'snack',
+        name:'กรีกโยเกิร์ต + น้ำผึ้งหยด',
+        kcal:128,protein:10,carb:14,fat:2,
+        ingredients:[
+          {n:'กรีกโยเกิร์ตรสธรรมชาติ',q:'150g',c:100},
+          {n:'น้ำผึ้ง',q:'1 ช้อนชา (7g)',c:21},
+        ],
+        steps:['ตักใส่ถ้วย หยดน้ำผึ้ง'],tip:''
+      },
+    ]
+  },
+
+  w1d5:{
+    preview:'ไข่คนผักโขม · ข้าวกล้อง+ปลาแมคเคอเรล · ไก่อบมะนาว',
+    meals:[
+      {
+        time:'เช้า',badge:'morning',
+        name:'ไข่คน 2 ฟอง + ผักโขม + มะเขือเทศ',
+        kcal:248,protein:16,carb:8,fat:15,
+        ingredients:[
+          {n:'ไข่ไก่',q:'2 ฟอง',c:143},
+          {n:'ผักโขมสด',q:'50g (1 กำ)',c:11},
+          {n:'มะเขือเทศ',q:'1 ลูก (~80g)',c:14},
+          {n:'นมจืด',q:'2 ช้อนโต๊ะ',c:10},
+          {n:'น้ำมันมะกอก',q:'1 ช้อนชา',c:40},
+          {n:'เกลือ+พริกไทย',q:'นิดหน่อย',c:2},
+        ],
+        steps:[
+          'ตีไข่กับนม 2 ช้อนโต๊ะ ใส่เกลือ พริกไทย คนให้เข้ากัน',
+          'ตั้งกระทะน้ำมันมะกอก ไฟกลาง-อ่อน',
+          'เทไข่ลง รอ 10 วินาที เริ่มคนเบาๆ ด้วยไม้พาย',
+          'ใส่ผักโขมและมะเขือเทศหั่น คนต่อจนไข่สุกแต่ยังชุ่ม ไม่แห้ง (~3 นาที)',
+        ],
+        tip:'ไฟอ่อนและคนช้าๆ = ไข่คนนุ่มฟู ไฟแรงเกินจะทำให้ยาง'
+      },
+      {
+        time:'กลางวัน',badge:'lunch',
+        name:'ข้าวกล้อง + ปลาแมคเคอเรลย่าง + แตงกวา',
+        kcal:428,protein:34,carb:46,fat:12,
+        ingredients:[
+          {n:'ปลาแมคเคอเรลสด (ซาบะ)',q:'150g (1 ตัวเล็ก)',c:222},
+          {n:'ข้าวกล้องสุก',q:'150g',c:165},
+          {n:'แตงกวา',q:'100g',c:16},
+          {n:'มะนาว',q:'½ ลูก',c:6},
+          {n:'เกลือทะเล',q:'¼ ช้อนชา',c:0},
+        ],
+        steps:[
+          'ขูดเกล็ด ล้างปลาให้สะอาด ซับแห้ง ทาเกลือให้ทั่ว',
+          'ย่างกระทะ non-stick ไฟกลาง ไม่ต้องใส่น้ำมัน (ปลามีน้ำมันในตัว)',
+          'ย่างด้านละ 5–6 นาที จนผิวเหลืองกรอบ',
+          'เสิร์ฟกับข้าวกล้องและแตงกวา บีบมะนาว',
+        ],
+        tip:'ปลาแมคเคอเรล (ซาบะ) ราคาถูกมาก โอเมก้า 3 สูงกว่าแซลมอนด้วยซ้ำ'
+      },
+      {
+        time:'เย็น',badge:'dinner',
+        name:'อกไก่อบมะนาวสมุนไพร + ฟักทองต้ม',
+        kcal:338,protein:38,carb:22,fat:9,
+        ingredients:[
+          {n:'อกไก่',q:'150g',c:165},
+          {n:'ฟักทอง',q:'150g',c:51},
+          {n:'น้ำมะนาว',q:'2 ช้อนโต๊ะ',c:8},
+          {n:'กระเทียมสับ',q:'3 กลีบ',c:13},
+          {n:'โหระพาแห้ง',q:'½ ช้อนชา',c:1},
+          {n:'น้ำมันมะกอก',q:'1 ช้อนชา',c:40},
+          {n:'เกลือ+พริกไทย',q:'นิดหน่อย',c:3},
+        ],
+        steps:[
+          'หมักอกไก่กับมะนาว + กระเทียม + โหระพา + น้ำมันมะกอก 15 นาที',
+          'ตั้งเตาอบ 180°C อบไก่ 20–22 นาทีจนสุก',
+          'ต้มฟักทองในน้ำเดือดจนนุ่ม (~10 นาที) หรืออบพร้อมกัน',
+        ],
+        tip:''
+      },
+      {
+        time:'ของว่าง',badge:'snack',
+        name:'ฝรั่ง + วอลนัทหยิบมือ',
+        kcal:158,protein:4,carb:18,fat:9,
+        ingredients:[
+          {n:'ฝรั่ง',q:'120g',c:41},
+          {n:'วอลนัทอบ',q:'15g (5 เม็ดครึ่ง)',c:98},
+        ],
+        steps:['หั่นฝรั่ง กินพร้อมวอลนัท'],tip:''
+      },
+    ]
+  },
+
+  w1d6:{
+    preview:'Overnight Oats · หมูสันในผัด · ปลานึ่งซีอิ๊ว',
+    meals:[
+      {
+        time:'เช้า',badge:'morning',
+        name:'Overnight Oats + เมล็ดเจีย + กล้วย',
+        kcal:312,protein:14,carb:50,fat:7,
+        ingredients:[
+          {n:'โอ๊ต',q:'50g (½ ถ้วย)',c:180},
+          {n:'นมจืด',q:'150ml',c:53},
+          {n:'กรีกโยเกิร์ต',q:'50g',c:33},
+          {n:'เมล็ดเจีย',q:'1 ช้อนโต๊ะ (10g)',c:49},
+          {n:'กล้วยน้ำว้า',q:'1 ลูก',c:72},
+        ],
+        steps:[
+          'คืนก่อน: ผสมโอ๊ต + นม + โยเกิร์ต + เมล็ดเจีย ในขวดหรือชาม ปิดฝา แช่ตู้เย็น',
+          'เช้าขึ้นมา หยิบออก ใส่กล้วยหั่น กินได้เลย',
+        ],
+        tip:'เตรียมได้ 2–3 วันล่วงหน้า แค่เตรียมหลายขวดพร้อมกัน'
+      },
+      {
+        time:'กลางวัน',badge:'lunch',
+        name:'ข้าวกล้อง + หมูสันในผัดซีอิ๊ว + ผักกาด',
+        kcal:418,protein:35,carb:50,fat:9,
+        ingredients:[
+          {n:'หมูสันในหั่นบาง',q:'150g',c:187},
+          {n:'ข้าวกล้องสุก',q:'150g',c:165},
+          {n:'ผักกาดขาว',q:'100g',c:13},
+          {n:'กระเทียมสับ',q:'2 กลีบ',c:8},
+          {n:'ซีอิ๊วขาว',q:'1 ช้อนชา',c:6},
+          {n:'น้ำมันงา',q:'½ ช้อนชา',c:20},
+          {n:'น้ำมันมะกอก',q:'1 ช้อนชา',c:40},
+        ],
+        steps:[
+          'หั่นหมูบางประมาณ 3–4 มม. เตรียมไว้',
+          'ตั้งกระทะน้ำมันมะกอก ไฟสูง ใส่กระเทียม ผัด 30 วินาที',
+          'ใส่หมู ผัดไฟสูง 3 นาทีจนสุก ใส่ซีอิ๊วขาว คนให้เข้ากัน',
+          'ใส่ผักกาด ผัดต่อ 1 นาที ใส่น้ำมันงา คนเร็วๆ ปิดไฟ',
+        ],
+        tip:'หมูสันในบางและไฟสูง = สุกเร็ว ไม่แข็ง ผัดไม่เกิน 4 นาทีรวม'
+      },
+      {
+        time:'เย็น',badge:'dinner',
+        name:'ปลานึ่งซีอิ๊วขิง + เห็ดหูหนูลวก',
+        kcal:268,protein:32,carb:10,fat:8,
+        ingredients:[
+          {n:'ปลากะพง/ปลานิล',q:'180g',c:150},
+          {n:'เห็ดหูหนู (แช่น้ำ)',q:'50g',c:18},
+          {n:'ขิงสดหั่นเส้น',q:'15g',c:12},
+          {n:'ต้นหอมหั่น',q:'2 ต้น',c:6},
+          {n:'ซีอิ๊วขาว',q:'1 ช้อนโต๊ะ',c:10},
+          {n:'น้ำมันงา',q:'1 ช้อนชา',c:40},
+          {n:'น้ำเปล่า',q:'2 ช้อนโต๊ะ',c:0},
+        ],
+        steps:[
+          'แช่เห็ดหูหนูในน้ำอุ่น 20 นาที ล้างสะอาด ตัดก้านออก',
+          'วางปลาในจาน วางขิงเส้นบนปลา',
+          'นึ่งปลา 12 นาที ระหว่างนั้นลวกเห็ดหูหนู 3 นาที',
+          'ผสมซีอิ๊ว + น้ำ + น้ำมันงา เทบนปลาหลังนึ่งเสร็จ โรยต้นหอม',
+        ],
+        tip:''
+      },
+      {
+        time:'ของว่าง',badge:'snack',
+        name:'ผลไม้ตามฤดูกาล (แก้วมังกร/มังคุด)',
+        kcal:90,protein:1,carb:22,fat:0,
+        ingredients:[{n:'ผลไม้สดตามฤดู',q:'150g',c:90}],
+        steps:['ล้าง หั่น กินได้เลย'],tip:''
+      },
+    ]
+  },
+
+  w1d7:{
+    preview:'วันหยุด: ไข่กวน+ขนมปัง · Poke Bowl · ต้มข่าไก่',
+    meals:[
+      {
+        time:'เช้า',badge:'morning',
+        name:'ไข่กวนผักโขม + ขนมปังโฮลวีต',
+        kcal:282,protein:18,carb:22,fat:13,
+        ingredients:[
+          {n:'ไข่ไก่',q:'2 ฟอง',c:143},
+          {n:'ขนมปังโฮลวีต',q:'1 แผ่น (~35g)',c:82},
+          {n:'ผักโขมสด',q:'40g',c:9},
+          {n:'เนยจืด (unsalted)',q:'½ ช้อนชา (3g)',c:22},
+          {n:'พริกไทย+เกลือ',q:'นิดหน่อย',c:3},
+        ],
+        steps:[
+          'ตีไข่ ใส่เกลือ พริกไทย',
+          'ตั้งกระทะเนยไฟอ่อน ใส่ผักโขม ผัดจนสลด',
+          'เทไข่ลง คนเบาๆ ตลอดเวลาจนสุก',
+          'เสิร์ฟบนขนมปังโฮลวีตปิ้ง',
+        ],
+        tip:'วันหยุดมีเวลา ทำไข่คนแบบช้าๆ ไฟอ่อน จะนุ่มฟูมาก'
+      },
+      {
+        time:'กลางวัน',badge:'lunch',
+        name:'Poke Bowl: ข้าวกล้อง + ทูน่า/แซลมอน + ผัก',
+        kcal:482,protein:36,carb:50,fat:14,
+        ingredients:[
+          {n:'ข้าวกล้องสุก',q:'150g',c:165},
+          {n:'ทูน่าสดหรือแซลมอน',q:'120g',c:156},
+          {n:'อะโวคาโด',q:'½ ลูก (~60g)',c:96},
+          {n:'แตงกวาญี่ปุ่น',q:'70g',c:11},
+          {n:'มะเขือเทศเชอร์รี่',q:'6 ลูก',c:18},
+          {n:'ซีอิ๊วขาว',q:'1 ช้อนชา',c:6},
+          {n:'น้ำมันงา',q:'½ ช้อนชา',c:20},
+          {n:'งาขาว',q:'1 ช้อนชา',c:17},
+        ],
+        steps:[
+          'หั่นปลาเป็นก้อน 2×2 ซม. คลุกกับซีอิ๊ว + น้ำมันงา',
+          'จัดข้าวกล้องในชาม วางปลา อะโวคาโด แตงกวา มะเขือเทศ',
+          'โรยงา เสิร์ฟทันที',
+        ],
+        tip:'ซื้อปลาดิบเกรดกินดิบจาก Tops / Villa Market ถามคนขายให้แน่ใจ'
+      },
+      {
+        time:'เย็น',badge:'dinner',
+        name:'ต้มข่าไก่ใส่เห็ด + ข้าวกล้อง',
+        kcal:378,protein:28,carb:35,fat:14,
+        ingredients:[
+          {n:'อกไก่หั่นชิ้น',q:'120g',c:132},
+          {n:'เห็ดฟาง/เห็ดหอม',q:'100g',c:35},
+          {n:'กะทิ',q:'100ml (กล่องเล็ก ½)',c:138},
+          {n:'น้ำสต็อก/น้ำเปล่า',q:'200ml',c:5},
+          {n:'ข่าหั่น',q:'3 แว่น (~15g)',c:10},
+          {n:'ตะไคร้ทุบ',q:'2 ต้น',c:10},
+          {n:'ใบมะกรูด',q:'4 ใบ',c:2},
+          {n:'น้ำมะนาว',q:'2 ช้อนโต๊ะ',c:8},
+          {n:'น้ำปลา',q:'1 ช้อนชา',c:3},
+          {n:'พริกขี้หนู',q:'2–3 เม็ด',c:5},
+          {n:'ข้าวกล้องสุก',q:'120g',c:132},
+        ],
+        steps:[
+          'ต้มกะทิ + น้ำสต็อก ใส่ข่า ตะไคร้ ใบมะกรูด ไฟกลาง',
+          'พอเดือดใส่ไก่ ต้ม 5–7 นาที',
+          'ใส่เห็ด ต้มต่อ 3 นาที',
+          'ปรุงรสด้วยน้ำปลา + มะนาว ลิ้มชิมรส',
+          'เสิร์ฟกับข้าวกล้อง',
+        ],
+        tip:'ต้มข่าหม้อใหญ่ เก็บได้ 2 วัน กินมื้อจันทร์ต่อได้เลย'
+      },
+      {
+        time:'ของว่าง',badge:'snack',
+        name:'กล้วย + ถั่วอบ',
+        kcal:148,protein:5,carb:20,fat:6,
+        ingredients:[
+          {n:'กล้วยน้ำว้า',q:'1 ลูก',c:72},
+          {n:'ถั่วอบรวม',q:'15g',c:76},
+        ],
+        steps:['กินได้เลย'],tip:''
+      },
+    ]
+  },
+
+  // ══════ WEEK 2 ══════ (สรุปย่อกว่า แต่ยังมีวิธีทำครบ)
+  w2d1:{
+    preview:'โอ๊ตแครอท · ไก่ผัดขิง+ข้าวกล้อง · ปลาอบ',
+    meals:[
+      {
+        time:'เช้า',badge:'morning',
+        name:'โอ๊ตต้มใส่แครอทขูด + อบเชย',
+        kcal:278,protein:9,carb:50,fat:5,
+        ingredients:[
+          {n:'โอ๊ต',q:'50g',c:180},{n:'แครอทขูด',q:'50g',c:20},{n:'นมจืด',q:'150ml',c:53},{n:'อบเชย',q:'¼ ช้อนชา',c:2},{n:'น้ำผึ้ง',q:'1 ช้อนชา',c:21},
+        ],
+        steps:['ต้มโอ๊ตกับนม + น้ำ 100ml ไฟกลาง 5 นาที','ใส่แครอทขูดลงไป คนต่อ 1 นาที','เทใส่ชาม โรยอบเชย หยดน้ำผึ้ง'],
+        tip:'แครอทขูดละเอียดจะไม่รู้สึกเลย แต่เพิ่มไฟเบอร์และวิตามิน A มาก'
+      },
+      {
+        time:'กลางวัน',badge:'lunch',
+        name:'ข้าวกล้อง + อกไก่ผัดขิงผักบุ้ง',
+        kcal:442,protein:38,carb:50,fat:8,
+        ingredients:[
+          {n:'อกไก่หั่นชิ้น',q:'150g',c:165},{n:'ข้าวกล้องสุก',q:'150g',c:165},{n:'ผักบุ้ง',q:'100g',c:19},{n:'ขิงสดหั่นเส้น',q:'15g',c:12},{n:'กระเทียมสับ',q:'2 กลีบ',c:8},{n:'ซีอิ๊วขาว',q:'1 ช้อนชา',c:6},{n:'น้ำมันมะกอก',q:'1 ช้อนชา',c:40},
+        ],
+        steps:['ตั้งกระทะน้ำมัน ไฟสูง ใส่กระเทียม + ขิง ผัด 30 วิ','ใส่ไก่ ผัดจนสุก 4–5 นาที','ใส่ผักบุ้ง ผัดไว 1 นาที ใส่ซีอิ๊วขาว คนให้เข้ากัน','เสิร์ฟกับข้าวกล้อง'],
+        tip:'ขิงช่วยลดการอักเสบและช่วยย่อยอาหาร เพิ่มมากได้ตามชอบ'
+      },
+      {
+        time:'เย็น',badge:'dinner',
+        name:'ปลาทับทิมอบเกลือ + ผักอบในเตา',
+        kcal:298,protein:36,carb:12,fat:10,
+        ingredients:[
+          {n:'ปลาทับทิม',q:'200g (1 ตัว)',c:168},{n:'บรอกโคลีหั่น',q:'100g',c:34},{n:'แครอทหั่น',q:'80g',c:33},{n:'เกลือทะเล',q:'½ ช้อนชา',c:0},{n:'น้ำมันมะกอก',q:'1 ช้อนชา',c:40},{n:'มะนาว',q:'½ ลูก',c:11},
+        ],
+        steps:['ตั้งเตาอบ 190°C','ล้างปลา ซับแห้ง บั้งทั้งสองด้าน ทาเกลือให้ทั่วรวมถึงในท้อง','วางปลาบนถาดอบ รายรอบด้วยผัก ราดน้ำมันมะกอกบนผัก','อบ 22–25 นาที จนผิวปลากรอบ','บีบมะนาวเสิร์ฟทันที'],
+        tip:'บั้งปลาช่วยให้ความร้อนเข้าถึงกลางเนื้อ ลดเวลาอบได้'
+      },
+      {time:'ของว่าง',badge:'snack',name:'โยเกิร์ตรสธรรมชาติ + สตรอว์เบอร์รี',kcal:128,protein:9,carb:14,fat:2,
+        ingredients:[{n:'กรีกโยเกิร์ต',q:'150g',c:100},{n:'สตรอว์เบอร์รี',q:'80g',c:26}],steps:['หั่นสตรอว์เบอร์รี วางบนโยเกิร์ต'],tip:''},
+    ]
+  },
+
+  w2d2:{
+    preview:'สมูทตี้เขียว · สลัดไก่+ข้าวกล้อง · หมูสันในต้มผัก',
+    meals:[
+      {
+        time:'เช้า',badge:'morning',
+        name:'Green Smoothie: ผักโขม + กล้วย + นม',
+        kcal:258,protein:10,carb:42,fat:5,
+        ingredients:[
+          {n:'ผักโขมสด',q:'30g (1 กำเล็ก)',c:7},{n:'กล้วย',q:'1 ลูก (80g)',c:72},{n:'นมจืด',q:'200ml',c:70},{n:'น้ำแข็ง',q:'½ ถ้วย',c:0},{n:'กรีกโยเกิร์ต',q:'50g',c:33},
+        ],
+        steps:['ใส่ทุกอย่างในเครื่องปั่น เริ่มจากของเหลวก่อน','ปั่นสูง 1 นาที จนเนียน','ชิมรส ถ้าอยากหวานเพิ่มกล้วยอีกครึ่งลูก'],
+        tip:'ผักโขมจะไม่รู้สึกรสเลยเพราะกล้วยกลบ แต่ได้ธาตุเหล็กเต็มๆ'
+      },
+      {
+        time:'กลางวัน',badge:'lunch',
+        name:'สลัดไก่ย่าง + ข้าวกล้อง',
+        kcal:432,protein:40,carb:46,fat:10,
+        ingredients:[
+          {n:'อกไก่ย่าง (จากเมื่อวาน)',q:'130g',c:143},{n:'ข้าวกล้องสุก',q:'120g',c:132},{n:'ผักสลัด',q:'60g',c:10},{n:'แตงกวา',q:'80g',c:13},{n:'มะเขือเทศ',q:'80g',c:14},{n:'น้ำมันมะกอก',q:'1 ช้อนโต๊ะ',c:119},{n:'น้ำมะนาว',q:'1 ช้อนโต๊ะ',c:4},{n:'มัสตาร์ดเม็ด',q:'½ ช้อนชา',c:5},
+        ],
+        steps:['หั่นไก่ย่างที่เหลือ','ทำน้ำสลัด: มะนาว + น้ำมันมะกอก + มัสตาร์ด + เกลือ คนให้เข้ากัน','จัดผักสลัด ไก่ ผัก และข้าวกล้องในชาม ราดน้ำสลัด'],
+        tip:'น้ำสลัด Dijon-lemon ทำง่ายมาก ดีกว่าซื้อสำเร็จรูปที่น้ำตาลเยอะ'
+      },
+      {
+        time:'เย็น',badge:'dinner',
+        name:'หมูสันในต้มผักรวม + น้ำซุปใส',
+        kcal:288,protein:30,carb:18,fat:7,
+        ingredients:[
+          {n:'หมูสันในหั่นชิ้น',q:'130g',c:162},{n:'แครอทหั่น',q:'80g',c:33},{n:'ผักกาดขาว',q:'100g',c:13},{n:'เห็ดฟาง',q:'80g',c:22},{n:'น้ำสต็อก',q:'500ml',c:10},{n:'ขิงบาง',q:'3 แว่น',c:8},{n:'ซีอิ๊วขาว',q:'1 ช้อนชา',c:6},{n:'น้ำมันงา',q:'½ ช้อนชา',c:20},
+        ],
+        steps:['ต้มน้ำสต็อกกับขิง พอเดือดใส่หมู','ช้อนฟองออก ต้ม 5 นาที','ใส่แครอท เห็ด ต้มต่อ 8 นาที','ใส่ผักกาด ต้ม 2 นาที ปรุงรสด้วยซีอิ๊ว น้ำมันงา'],
+        tip:''
+      },
+      {time:'ของว่าง',badge:'snack',name:'แอปเปิ้ล + เนยถั่ว 1 ช้อนชา',kcal:168,protein:4,carb:24,fat:7,
+        ingredients:[{n:'แอปเปิ้ล',q:'1 ลูก (~150g)',c:78},{n:'เนยถั่ว (Natural PB)',q:'1 ช้อนชา (10g)',c:60}],
+        steps:['หั่นแอปเปิ้ล จิ้มเนยถั่ว'],
+        tip:'เนยถั่วแบบ Natural (ส่วนผสมแค่ถั่ว+เกลือ) ดีกว่าแบบมีน้ำตาล'}
+    ]
+  },
+
+  w2d3:{
+    preview:'ไข่+อะโวคาโด · ราดหน้าเต้าหู้ · ไก่นึ่งสมุนไพร',
+    meals:[
+      {time:'เช้า',badge:'morning',name:'ไข่ต้ม 2 ฟอง + อะโวคาโดหั่น',kcal:278,protein:14,carb:6,fat:20,
+        ingredients:[{n:'ไข่ไก่',q:'2 ฟอง',c:143},{n:'อะโวคาโดสุก',q:'½ ลูก (~70g)',c:112},{n:'มะเขือเทศ',q:'½ ลูก',c:7},{n:'มะนาว',q:'บีบเล็กน้อย',c:3}],
+        steps:['ต้มไข่ 8 นาที ปอกเปลือก','หั่นอะโวคาโด โรยมะนาวป้องกันสีดำ','จัดจาน โรยพริกไทย'],
+        tip:'อะโวคาโดสุกเมื่อกดที่ขั้วแล้วยุบเล็กน้อย ถ้าแข็งมากพักที่อุณหภูมิห้อง 1–2 วัน'},
+      {time:'กลางวัน',badge:'lunch',name:'เส้นหมี่ผัดราดหน้าเต้าหู้คะน้า',kcal:378,protein:18,carb:52,fat:10,
+        ingredients:[{n:'เส้นหมี่แห้ง',q:'60g',c:216},{n:'เต้าหู้แข็ง',q:'100g',c:80},{n:'คะน้าหั่น',q:'80g',c:25},{n:'กระเทียมสับ',q:'2 กลีบ',c:8},{n:'ซีอิ๊วขาว',q:'1 ช้อนชา',c:6},{n:'น้ำมันหอยน้อย',q:'½ ช้อนชา',c:6},{n:'แป้งมันเล็กน้อย',q:'1 ช้อนชา',c:9},{n:'น้ำสต็อก',q:'100ml',c:5}],
+        steps:['ลวกเส้นหมี่ในน้ำเดือด 3 นาที สะเด็ดน้ำ ใส่จาน','ทอดเต้าหู้ในน้ำมันจนเหลืองทุกด้าน พักไว้','ผัดกระเทียม ใส่คะน้า ผัด 2 นาที','ใส่เต้าหู้ + น้ำสต็อก + ซีอิ๊ว + น้ำมันหอย คนให้เข้ากัน','ละลายแป้งมันในน้ำ 1 ช้อนโต๊ะ เทลงกวนจนข้น','ราดบนเส้นหมี่'],
+        tip:''},
+      {time:'เย็น',badge:'dinner',name:'อกไก่นึ่งสมุนไพร + มันเทศต้ม',kcal:338,protein:37,carb:28,fat:6,
+        ingredients:[{n:'อกไก่',q:'150g',c:165},{n:'มันเทศ',q:'150g',c:129},{n:'ขิงสด',q:'10g',c:8},{n:'ตะไคร้',q:'1 ต้น',c:5},{n:'น้ำมะนาว',q:'1 ช้อนโต๊ะ',c:4},{n:'ซีอิ๊วขาว',q:'½ ช้อนชา',c:3}],
+        steps:['วางตะไคร้ทุบ + ขิงในจานนึ่ง วางไก่ทับ ราดมะนาว','นึ่งไก่ 18–20 นาที','ต้มมันเทศพร้อมกัน 15 นาที','ทำน้ำจิ้มจากซีอิ๊วขาว + มะนาว + กระเทียม'],
+        tip:''},
+      {time:'ของว่าง',badge:'snack',name:'ถั่วอบรวม + กล้วยน้ำว้า',kcal:158,protein:5,carb:20,fat:8,
+        ingredients:[{n:'ถั่วอบรวม (ไม่เค็ม)',q:'15g',c:86},{n:'กล้วยน้ำว้า',q:'1 ลูก',c:72}],
+        steps:['กินได้เลย'],tip:''}
+    ]
+  },
+
+  w2d4:{
+    preview:'โอ๊ต+ผลไม้ · ข้าวกล้อง+ปลาซาบะ · แกงจืดเต้าหู้',
+    meals:[
+      {time:'เช้า',badge:'morning',name:'โอ๊ตมีล + ผลไม้รวม',kcal:298,protein:10,carb:54,fat:5,
+        ingredients:[{n:'โอ๊ต',q:'50g',c:180},{n:'ผลไม้รวมสด',q:'100g',c:60},{n:'นมจืด',q:'150ml',c:53}],
+        steps:['ต้มโอ๊ต+นม 5 นาที','ใส่ผลไม้ที่ชอบด้านบน'],tip:'ผลไม้ไม่มีกฎ ใช้อะไรก็ได้ที่มีในตู้เย็น'},
+      {time:'กลางวัน',badge:'lunch',name:'ข้าวกล้อง + ปลาซาบะย่าง + ผักลวก',kcal:452,protein:35,carb:48,fat:13,
+        ingredients:[{n:'ปลาซาบะ (แมคเคอเรล)',q:'150g',c:222},{n:'ข้าวกล้องสุก',q:'150g',c:165},{n:'บรอกโคลี',q:'80g',c:27},{n:'เกลือ',q:'¼ ช้อนชา',c:0},{n:'มะนาว',q:'½ ลูก',c:11}],
+        steps:['ทาเกลือปลาทั้งสองด้าน','ย่างกระทะ non-stick ไฟกลาง ไม่ต้องใส่น้ำมัน ด้านละ 5–6 นาที','ลวกบรอกโคลี 3 นาที','เสิร์ฟกับข้าวกล้อง บีบมะนาว'],
+        tip:''},
+      {time:'เย็น',badge:'dinner',name:'แกงจืดเต้าหู้ไข่ผักกาดขาว',kcal:328,protein:22,carb:15,fat:12,
+        ingredients:[{n:'เต้าหู้หลอด',q:'100g',c:55},{n:'ไข่ไก่',q:'1 ฟอง',c:71},{n:'ผักกาดขาว',q:'150g',c:21},{n:'หมูสับ (เล็กน้อย)',q:'50g',c:72},{n:'น้ำสต็อก',q:'500ml',c:10},{n:'ซีอิ๊วขาว',q:'1 ช้อนชา',c:6},{n:'น้ำมันงา',q:'½ ช้อนชา',c:20}],
+        steps:['ต้มน้ำสต็อกให้เดือด','ปั้นหมูสับเป็นก้อนเล็กๆ ใส่ลงในน้ำสต็อก','ใส่เต้าหู้หลอดตัดเป็นชิ้น ผักกาดขาว','ตอกไข่ลงโดยตรง ปิดฝา 2 นาที','ปรุงรสด้วยซีอิ๊ว น้ำมันงา'],
+        tip:'แกงจืดทำเยอะกินได้ 2 มื้อ อุ่นง่าย'},
+      {time:'ของว่าง',badge:'snack',name:'กรีกโยเกิร์ต + กล้วย',kcal:148,protein:11,carb:20,fat:2,
+        ingredients:[{n:'กรีกโยเกิร์ต',q:'100g',c:87},{n:'กล้วย',q:'½ ลูก',c:36}],
+        steps:['ตักใส่ถ้วย วางกล้วย'],tip:''}
+    ]
+  },
+
+  w2d5:{
+    preview:'ไข่คน+ผักโขม · ข้าวหน้าไก่ต้มฉีก · ปลากะพงนึ่ง',
+    meals:[
+      {time:'เช้า',badge:'morning',name:'ไข่คน 2 ฟอง + ผักโขมผัดกระเทียม',kcal:232,protein:15,carb:5,fat:16,
+        ingredients:[{n:'ไข่ไก่',q:'2 ฟอง',c:143},{n:'ผักโขม',q:'50g',c:11},{n:'กระเทียมสับ',q:'1 กลีบ',c:5},{n:'น้ำมันมะกอก',q:'1 ช้อนชา',c:40}],
+        steps:['ผัดผักโขมกับกระเทียมในน้ำมันมะกอก ไฟกลาง 2 นาที','ตีไข่เทลง คนเบาๆ จนสุก'],tip:''},
+      {time:'กลางวัน',badge:'lunch',name:'ข้าวกล้องหน้าไก่ต้มฉีก + ซอสขิงมะนาว',kcal:428,protein:38,carb:48,fat:7,
+        ingredients:[{n:'อกไก่ต้ม',q:'150g',c:165},{n:'ข้าวกล้องสุก',q:'150g',c:165},{n:'ขิงสับ',q:'10g',c:8},{n:'ต้นหอม',q:'2 ต้น',c:6},{n:'ซีอิ๊วขาว',q:'1 ช้อนชา',c:6},{n:'น้ำมะนาว',q:'1 ช้อนโต๊ะ',c:4}],
+        steps:['ต้มไก่ในน้ำ 20–25 นาที จนสุก ฉีกเป็นเส้น','ทำน้ำซอส: ขิงสับ + ซีอิ๊ว + มะนาว + ต้นหอมหั่น คนให้เข้ากัน','จัดข้าวกล้องในชาม วางไก่ฉีก ราดซอส'],
+        tip:'น้ำต้มไก่เก็บไว้เป็นสต็อกได้ เก็บแช่แข็งได้ 1 เดือน'},
+      {time:'เย็น',badge:'dinner',name:'ปลากะพงนึ่งกระเทียมขิง + ผักบุ้งลวก',kcal:278,protein:34,carb:8,fat:8,
+        ingredients:[{n:'ปลากะพง',q:'180g',c:150},{n:'ผักบุ้ง',q:'100g',c:19},{n:'กระเทียมสับ',q:'3 กลีบ',c:13},{n:'ขิงเส้น',q:'10g',c:8},{n:'น้ำปลา',q:'1 ช้อนชา',c:3},{n:'น้ำมะนาว',q:'2 ช้อนโต๊ะ',c:8},{n:'พริก',q:'1–2 เม็ด',c:5}],
+        steps:['วางขิงใต้ปลา นึ่ง 12–15 นาที','ลวกผักบุ้งในน้ำเดือด 2 นาที','ผสมน้ำจิ้ม: มะนาว + น้ำปลา + กระเทียม + พริก','ราดน้ำจิ้มบนปลา'],tip:''},
+      {time:'ของว่าง',badge:'snack',name:'ฝรั่ง 1 ลูก',kcal:51,protein:1,carb:13,fat:0,
+        ingredients:[{n:'ฝรั่ง',q:'150g',c:51}],steps:['หั่น กินได้เลย'],tip:''}
+    ]
+  },
+
+  w2d6:{
+    preview:'Overnight Oats · หมูสันในย่าง · ซุปมิโซเต้าหู้',
+    meals:[
+      {time:'เช้า',badge:'morning',name:'Overnight Oats + เบอร์รี่',kcal:310,protein:14,carb:50,fat:7,
+        ingredients:[{n:'โอ๊ต',q:'50g',c:180},{n:'นมจืด',q:'120ml',c:42},{n:'กรีกโยเกิร์ต',q:'50g',c:33},{n:'เมล็ดเจีย',q:'10g',c:49},{n:'บลูเบอร์รี่/ราสเบอร์รี่',q:'50g',c:29}],
+        steps:['คืนก่อน: ผสมโอ๊ต+นม+โยเกิร์ต+เมล็ดเจีย แช่ตู้เย็น','เช้า: ใส่เบอร์รี่ด้านบน'],tip:''},
+      {time:'กลางวัน',badge:'lunch',name:'ข้าวกล้อง + หมูสันในย่างพริกไทย + สลัด',kcal:420,protein:36,carb:48,fat:10,
+        ingredients:[{n:'หมูสันใน',q:'150g',c:187},{n:'ข้าวกล้องสุก',q:'150g',c:165},{n:'ผักสลัด',q:'60g',c:10},{n:'พริกไทยดำหยาบ',q:'1 ช้อนชา',c:5},{n:'เกลือ',q:'¼ ช้อนชา',c:0},{n:'น้ำมันมะกอก',q:'1 ช้อนชา',c:40}],
+        steps:['โรยพริกไทยดำหยาบและเกลือบนหมูสันในทุกด้าน','ตั้งกระทะไฟสูง ใส่น้ำมันมะกอก ย่างด้านละ 3–4 นาที','พักหมู 5 นาที ก่อนหั่น'],tip:'พักหมูก่อนหั่นสำคัญมาก เนื้อจะฉ่ำ ไม่แห้ง'},
+      {time:'เย็น',badge:'dinner',name:'ซุปมิโซเต้าหู้ + เห็ดหลากชนิด',kcal:198,protein:14,carb:14,fat:7,
+        ingredients:[{n:'เพสมิโซขาว',q:'2 ช้อนชา (20g)',c:40},{n:'เต้าหู้ออ่น',q:'100g',c:55},{n:'เห็ดชิตาเกะ/เห็ดหอม',q:'80g',c:27},{n:'สาหร่ายวากาเมะ',q:'5g (แห้ง)',c:18},{n:'น้ำร้อน',q:'400ml',c:0},{n:'ต้นหอม',q:'2 ต้น',c:6}],
+        steps:['แช่สาหร่ายวากาเมะในน้ำเย็น 5 นาที สะเด็ดน้ำ','ต้มน้ำ 400ml ใส่เห็ด ต้ม 3 นาที','ปิดไฟ ละลายมิโซในน้ำร้อน (อย่าต้มมิโซตอนเดือด จะเสียรส)','ใส่เต้าหู้ สาหร่าย โรยต้นหอม'],
+        tip:'มิโซมีโปรไบโอติกสูง อย่าต้มพอเดือดแล้วเพราะจะทำลายแบคทีเรียดี'},
+      {time:'ของว่าง',badge:'snack',name:'แตงโม + อัลมอนด์',kcal:148,protein:4,carb:20,fat:8,
+        ingredients:[{n:'แตงโม',q:'200g',c:56},{n:'อัลมอนด์อบ',q:'15g',c:87}],
+        steps:['หั่นแตงโม กินพร้อมอัลมอนด์'],tip:''}
+    ]
+  },
+
+  w2d7:{
+    preview:'วันหยุด: French Toast · ข้าวหน้าแซลมอน · สุกี้คลีน',
+    meals:[
+      {time:'เช้า',badge:'morning',name:'French Toast ขนมปังโฮลวีต + กล้วย',kcal:318,protein:15,carb:38,fat:11,
+        ingredients:[{n:'ขนมปังโฮลวีต',q:'2 แผ่น (70g)',c:164},{n:'ไข่ไก่',q:'2 ฟอง',c:143},{n:'นมจืด',q:'3 ช้อนโต๊ะ',c:14},{n:'อบเชย',q:'¼ ช้อนชา',c:2},{n:'กล้วย',q:'1 ลูก',c:72},{n:'น้ำมันมะกอก',q:'½ ช้อนชา',c:20}],
+        steps:['ตีไข่ + นม + อบเชยเข้าด้วยกัน','จุ่มขนมปังในส่วนผสมไข่ แช่ 30 วินาทีต่อด้าน','ตั้งกระทะน้ำมันน้อยมาก ไฟกลาง ทอดด้านละ 2–3 นาที','เสิร์ฟกับกล้วยหั่น'],tip:'ไม่ต้องใส่น้ำตาล กล้วยให้ความหวานพอ'},
+      {time:'กลางวัน',badge:'lunch',name:'ข้าวหน้าแซลมอนเทริยากิ (คลีน)',kcal:480,protein:36,carb:48,fat:16,
+        ingredients:[{n:'แซลมอน',q:'150g',c:220},{n:'ข้าวกล้องสุก',q:'150g',c:165},{n:'น้ำผึ้ง',q:'1 ช้อนชา',c:21},{n:'ซีอิ๊วขาว',q:'1 ช้อนชา',c:6},{n:'ขิงสด',q:'5g',c:4},{n:'น้ำมันงา',q:'½ ช้อนชา',c:20}],
+        steps:['ทำซอสเทริยากิคลีน: น้ำผึ้ง + ซีอิ๊ว + ขิงขูด + น้ำมันงา คนให้เข้ากัน','หมักแซลมอน 10 นาที','ย่างกระทะ ด้านละ 3–4 นาที (แซลมอนยังชุ่มอยู่ภายใน)','เสิร์ฟบนข้าวกล้อง'],tip:''},
+      {time:'เย็น',badge:'dinner',name:'สุกี้น้ำคลีน (ผัก+เต้าหู้+ไข่)',kcal:348,protein:24,carb:28,fat:12,
+        ingredients:[{n:'ผักรวม (คะน้า,เห็ด,กาดขาว)',q:'200g',c:60},{n:'เต้าหู้แข็ง',q:'100g',c:80},{n:'ไข่ไก่',q:'1 ฟอง',c:71},{n:'วุ้นเส้น',q:'30g (แห้ง)',c:103},{n:'น้ำสต็อก',q:'500ml',c:10},{n:'ซีอิ๊วขาว',q:'1 ช้อนโต๊ะ',c:10},{n:'น้ำมันงา',q:'1 ช้อนชา',c:40}],
+        steps:['ต้มน้ำสต็อกในหม้อ ปรุงรสด้วยซีอิ๊ว','ใส่ผักที่สุกยาก (เห็ด แครอท) ก่อน','ใส่เต้าหู้ ผักใบ วุ้นเส้น ต้ม 3–4 นาที','ตอกไข่ลง ปิดฝา 2 นาที','ราดน้ำมันงา'],tip:'สุกี้คลีนไม่ต้องพึ่งซอสสุกี้ที่น้ำตาลเยอะ รสชาติสต็อกล้วนๆ อร่อยมาก'},
+      {time:'ของว่าง',badge:'snack',name:'ผลไม้รวมตามชอบ',kcal:100,protein:1,carb:25,fat:0,
+        ingredients:[{n:'ผลไม้ตามฤดูกาล',q:'180g',c:100}],steps:['หั่น กินได้เลย'],tip:''}
+    ]
+  },
+
+  // ══════ WEEK 3 (ย่อ) ══════
+  w3d1:{
+    preview:'โอ๊ตฟักทอง · แซลมอนย่าง · ต้มยำกุ้งน้ำใส',
+    meals:[
+      {time:'เช้า',badge:'morning',name:'โอ๊ตต้มใส่ฟักทองบด + อบเชย',kcal:288,protein:9,carb:52,fat:5,
+        ingredients:[{n:'โอ๊ต',q:'50g',c:180},{n:'ฟักทองบด',q:'80g',c:27},{n:'นมจืด',q:'150ml',c:53},{n:'อบเชย',q:'¼ ช้อนชา',c:2}],
+        steps:['นึ่งฟักทอง 10 นาที บดให้ละเอียด','ต้มโอ๊ตกับนม ใส่ฟักทองบด คน 5 นาที','โรยอบเชย'],tip:'ฟักทองให้ความหวานธรรมชาติ ไม่ต้องใส่น้ำตาลเลย'},
+      {time:'กลางวัน',badge:'lunch',name:'ข้าวกล้อง + แซลมอนย่างมะนาว + สลัด',kcal:462,protein:38,carb:46,fat:16,
+        ingredients:[{n:'แซลมอน',q:'150g',c:220},{n:'ข้าวกล้องสุก',q:'150g',c:165},{n:'ผักสลัดรวม',q:'80g',c:14},{n:'น้ำมะนาว',q:'2 ช้อนโต๊ะ',c:8},{n:'น้ำมันมะกอก',q:'1 ช้อนชา',c:40},{n:'เกลือ+พริกไทย',q:'นิดหน่อย',c:3}],
+        steps:['โรยเกลือ+พริกไทยบนแซลมอน','ย่างกระทะ skin-down ก่อน ไฟกลาง 4 นาที พลิก 2–3 นาที','ทำน้ำสลัดมะนาว+น้ำมันมะกอก','เสิร์ฟกับสลัดและข้าวกล้อง'],tip:'ย่าง skin-side down ก่อน ผิวจะกรอบสวย'},
+      {time:'เย็น',badge:'dinner',name:'ต้มยำกุ้งน้ำใส + ข้าวกล้อง',kcal:342,protein:28,carb:36,fat:6,
+        ingredients:[{n:'กุ้งสด',q:'120g (6–8 ตัว)',c:90},{n:'เห็ดฟาง',q:'80g',c:22},{n:'ตะไคร้ทุบ',q:'2 ต้น',c:10},{n:'ข่าหั่น',q:'3 แว่น',c:8},{n:'ใบมะกรูด',q:'4 ใบ',c:2},{n:'พริกขี้หนู',q:'3–5 เม็ดตามชอบ',c:8},{n:'น้ำมะนาว',q:'2 ช้อนโต๊ะ',c:8},{n:'น้ำปลา',q:'1 ช้อนชา',c:3},{n:'ข้าวกล้องสุก',q:'120g',c:132}],
+        steps:['ต้มน้ำ 400ml ใส่ตะไคร้ ข่า ใบมะกรูด พริก','พอเดือดใส่กุ้ง เห็ด ต้ม 3–4 นาที','ปิดไฟ ใส่มะนาว + น้ำปลา (อย่าต้มหลังใส่มะนาว จะขม)','เสิร์ฟกับข้าวกล้อง'],
+        tip:'ใส่มะนาวหลังปิดไฟ รสเปรี้ยวจะสดกว่า ไม่ขม'},
+      {time:'ของว่าง',badge:'snack',name:'โยเกิร์ต + กล้วย',kcal:138,protein:10,carb:18,fat:2,
+        ingredients:[{n:'กรีกโยเกิร์ต',q:'100g',c:87},{n:'กล้วย',q:'½ ลูก',c:36}],steps:['ตักใส่ถ้วย วางกล้วย'],tip:''}
+    ]
+  },
+
+  w3d2:{
+    preview:'ไข่+อะโวคาโด · Buddha Bowl · หมูสันในอบ',
+    meals:[
+      {time:'เช้า',badge:'morning',name:'ไข่ต้ม 2 ฟอง + อะโวคาโด + มะเขือเทศ',kcal:278,protein:14,carb:7,fat:20,
+        ingredients:[{n:'ไข่ไก่',q:'2 ฟอง',c:143},{n:'อะโวคาโด',q:'½ ลูก (70g)',c:112},{n:'มะเขือเทศ',q:'1 ลูก',c:18}],
+        steps:['ต้มไข่ 8 นาที ปอกเปลือก','หั่นอะโวคาโด+มะเขือเทศ จัดจาน โรยพริกไทย'],tip:''},
+      {time:'กลางวัน',badge:'lunch',name:'Buddha Bowl: ข้าวกล้อง+ผักรวม+ถั่วชิกพี',kcal:412,protein:20,carb:58,fat:10,
+        ingredients:[{n:'ข้าวกล้องสุก',q:'150g',c:165},{n:'ถั่วชิกพีกระป๋อง',q:'80g สะเด็ดน้ำ',c:120},{n:'บรอกโคลีนึ่ง',q:'80g',c:27},{n:'แครอทขูด',q:'50g',c:20},{n:'น้ำมันมะกอก',q:'1 ช้อนโต๊ะ',c:119},{n:'น้ำมะนาว',q:'1 ช้อนโต๊ะ',c:4},{n:'พริกไทย',q:'นิดหน่อย',c:2}],
+        steps:['จัดข้าวกล้องในชาม','วางถั่ว บรอกโคลี แครอทขูดเรียงรอบๆ','ราดน้ำสลัดมะนาว+น้ำมันมะกอก'],tip:'Buddha Bowl ง่ายมาก แค่จัดของที่มีให้สวย ไม่มีสูตรตายตัว'},
+      {time:'เย็น',badge:'dinner',name:'หมูสันในมะรุมกระเทียมอบ + มันเทศ',kcal:358,protein:34,carb:28,fat:11,
+        ingredients:[{n:'หมูสันใน',q:'150g',c:187},{n:'มันเทศ',q:'150g',c:129},{n:'กระเทียม',q:'4 กลีบ',c:18},{n:'น้ำมันมะกอก',q:'1 ช้อนชา',c:40},{n:'เกลือ+พริกไทย',q:'นิดหน่อย',c:3}],
+        steps:['ตั้งเตา 180°C หมักหมูกับกระเทียมบด+น้ำมัน+เกลือ','หั่นมันเทศ วางบนถาดพร้อมหมู','อบ 25–28 นาที'],tip:''},
+      {time:'ของว่าง',badge:'snack',name:'ถั่วอบ + แอปเปิ้ล',kcal:168,protein:4,carb:24,fat:8,
+        ingredients:[{n:'ถั่วอบรวม',q:'15g',c:86},{n:'แอปเปิ้ล',q:'1 ลูก',c:78}],
+        steps:['หั่นแอปเปิ้ล กินพร้อมถั่ว'],tip:''}
+    ]
+  },
+
+  w3d3:{
+    preview:'สมูทตี้ผักขิง · ข้าวกล้อง+ไก่ตุ๋นวุ้นเส้น · ปลานิลนึ่ง',
+    meals:[
+      {time:'เช้า',badge:'morning',name:'Smoothie: ผักโขม+แอปเปิ้ล+ขิง+มะนาว',kcal:148,protein:3,carb:34,fat:1,
+        ingredients:[{n:'ผักโขม',q:'30g',c:7},{n:'แอปเปิ้ล',q:'1 ลูก (150g)',c:78},{n:'ขิงสด',q:'10g',c:8},{n:'น้ำมะนาว',q:'1 ช้อนโต๊ะ',c:4},{n:'น้ำเปล่า',q:'200ml',c:0}],
+        steps:['ปั่นทุกอย่างรวมกัน 1 นาที','ดื่มทันที ไม่ต้องกรอง'],tip:'Smoothie นี้แคลอรี่ต่ำ ถ้าหิวเพิ่มกล้วย 1 ลูกได้'},
+      {time:'กลางวัน',badge:'lunch',name:'ข้าวกล้อง + ไก่ตุ๋นวุ้นเส้นผัก',kcal:398,protein:32,carb:50,fat:6,
+        ingredients:[{n:'อกไก่',q:'120g',c:132},{n:'วุ้นเส้น',q:'30g (แห้ง)',c:103},{n:'แครอท',q:'60g',c:25},{n:'เห็ดหอม',q:'50g',c:18},{n:'ข้าวกล้องสุก',q:'120g',c:132},{n:'ซีอิ๊วขาว',q:'1 ช้อนชา',c:6},{n:'น้ำสต็อก',q:'200ml',c:5}],
+        steps:['แช่วุ้นเส้นในน้ำเย็น 10 นาที','ต้มน้ำสต็อก ใส่ไก่ แครอท เห็ด ต้ม 10 นาที','ใส่วุ้นเส้น ต้มต่อ 2 นาที ปรุงรส'],tip:'วุ้นเส้นคาร์บต่ำกว่าเส้นก๋วยเตี๋ยวทั่วไป แต่ให้ความอิ่มดี'},
+      {time:'เย็น',badge:'dinner',name:'ปลานิลนึ่งซีอิ๊ว + ผักกาดขาวต้ม',kcal:268,protein:33,carb:8,fat:8,
+        ingredients:[{n:'ปลานิล',q:'200g',c:162},{n:'ผักกาดขาว',q:'150g',c:21},{n:'ขิงเส้น',q:'10g',c:8},{n:'ซีอิ๊วขาว',q:'1 ช้อนโต๊ะ',c:10},{n:'น้ำมันงา',q:'1 ช้อนชา',c:40}],
+        steps:['วางขิงในจานนึ่ง วางปลาทับ นึ่ง 15 นาที','ต้มผักกาดขาว 3 นาที','ราดซีอิ๊วขาว+น้ำมันงาบนปลา'],tip:''},
+      {time:'ของว่าง',badge:'snack',name:'กรีกโยเกิร์ต 1 ถ้วย',kcal:120,protein:15,carb:8,fat:3,
+        ingredients:[{n:'กรีกโยเกิร์ต',q:'150g',c:100}],steps:['ตักกิน'],tip:''}
+    ]
+  },
+
+  w3d4:{
+    preview:'Overnight Oats · เต้าหู้ผัดแครอท · แกงเขียวหวานไก่',
+    meals:[
+      {time:'เช้า',badge:'morning',name:'Overnight Oats + เมล็ดเจีย + กล้วย',kcal:320,protein:14,carb:52,fat:7,
+        ingredients:[{n:'โอ๊ต',q:'50g',c:180},{n:'นมจืด',q:'150ml',c:53},{n:'กรีกโยเกิร์ต',q:'50g',c:33},{n:'เมล็ดเจีย',q:'10g',c:49},{n:'กล้วย',q:'1 ลูก',c:72}],
+        steps:['คืนก่อน: ผสมทุกอย่างยกเว้นกล้วย แช่ตู้เย็น','เช้า: ใส่กล้วยหั่น กินได้เลย'],tip:''},
+      {time:'กลางวัน',badge:'lunch',name:'ข้าวกล้อง + เต้าหู้ผัดน้ำมันหอย + แครอท',kcal:368,protein:18,carb:52,fat:10,
+        ingredients:[{n:'เต้าหู้แข็ง',q:'150g',c:120},{n:'ข้าวกล้องสุก',q:'150g',c:165},{n:'แครอทหั่น',q:'80g',c:33},{n:'น้ำมันหอยน้อยมาก',q:'1 ช้อนชา',c:12},{n:'ซีอิ๊วขาว',q:'1 ช้อนชา',c:6},{n:'กระเทียมสับ',q:'2 กลีบ',c:8},{n:'น้ำมันมะกอก',q:'1 ช้อนชา',c:40}],
+        steps:['กดน้ำออกจากเต้าหู้ หั่นก้อน','ทอดเต้าหู้จนเหลือง','ผัดกระเทียม ใส่แครอท ผัด 3 นาที','ใส่เต้าหู้ + ซีอิ๊ว + น้ำมันหอย คนให้เข้ากัน'],tip:''},
+      {time:'เย็น',badge:'dinner',name:'แกงเขียวหวานไก่ใส่มะเขือ (กะทิน้อย)',kcal:378,protein:28,carb:22,fat:18,
+        ingredients:[{n:'อกไก่หั่นชิ้น',q:'120g',c:132},{n:'มะเขือเทศ/มะเขือพวง',q:'100g',c:25},{n:'กะทิ',q:'80ml',c:110},{n:'น้ำสต็อก',q:'120ml',c:5},{n:'พริกแกงเขียวหวาน',q:'1 ช้อนโต๊ะ (20g)',c:35},{n:'ใบโหระพา',q:'1 กำ',c:5},{n:'น้ำปลา',q:'1 ช้อนชา',c:3},{n:'น้ำตาลมะพร้าว',q:'½ ช้อนชา',c:10}],
+        steps:['ผัดพริกแกงในกะทิ 50ml จนหอม','ใส่ไก่ ผัดจนเปลี่ยนสี','เพิ่มกะทิที่เหลือ + น้ำสต็อก ต้มให้เดือด','ใส่มะเขือ ต้ม 5 นาที ปรุงรสด้วยน้ำปลา + น้ำตาล','ใส่ใบโหระพา ปิดไฟ'],
+        tip:'ลดกะทิเป็น 80ml (แทนที่จะใช้ 200ml) แล้วเติมน้ำสต็อกแทน แคลอรี่ลดลงเกือบครึ่ง'},
+      {time:'ของว่าง',badge:'snack',name:'ฝรั่ง + เมล็ดทานตะวัน',kcal:128,protein:4,carb:18,fat:5,
+        ingredients:[{n:'ฝรั่ง',q:'150g',c:51},{n:'เมล็ดทานตะวันอบ',q:'15g',c:87}],
+        steps:['หั่นฝรั่ง กินพร้อมเมล็ด'],tip:''}
+    ]
+  },
+
+  w3d5:{
+    preview:'ไข่คน+มะเขือเทศ · ก๋วยเตี๋ยวต้มยำ · ปลาซาบะอบ',
+    meals:[
+      {time:'เช้า',badge:'morning',name:'ไข่คน 3 ฟอง + มะเขือเทศ + พริกไทย',kcal:242,protein:19,carb:6,fat:16,
+        ingredients:[{n:'ไข่ไก่',q:'3 ฟอง',c:215},{n:'มะเขือเทศ',q:'1 ลูก (80g)',c:14},{n:'พริกไทยดำ',q:'½ ช้อนชา',c:3},{n:'น้ำมันมะกอก',q:'½ ช้อนชา',c:20}],
+        steps:['ตีไข่ใส่พริกไทย','ตั้งกระทะน้ำมัน ไฟอ่อน ใส่มะเขือเทศหั่น','เทไข่ คนเบาๆ จนสุก'],tip:''},
+      {time:'กลางวัน',badge:'lunch',name:'ก๋วยเตี๋ยวต้มยำกุ้ง + เห็ดรวม',kcal:378,protein:26,carb:48,fat:6,
+        ingredients:[{n:'เส้นเล็ก',q:'60g (แห้ง)',c:210},{n:'กุ้ง',q:'80g',c:60},{n:'เห็ดชิตาเกะ+เห็ดฟาง',q:'100g รวม',c:38},{n:'ตะไคร้ทุบ',q:'1 ต้น',c:5},{n:'ข่า',q:'2 แว่น',c:5},{n:'ใบมะกรูด',q:'3 ใบ',c:2},{n:'น้ำมะนาว',q:'2 ช้อนโต๊ะ',c:8},{n:'น้ำปลา',q:'1 ช้อนชา',c:3}],
+        steps:['ต้มน้ำ 400ml ใส่ตะไคร้ ข่า ใบมะกรูด','ใส่เห็ด กุ้ง ต้ม 5 นาที','ปรุงรส ปิดไฟ ใส่มะนาว','เสิร์ฟกับเส้นที่ลวกไว้แยก'],tip:''},
+      {time:'เย็น',badge:'dinner',name:'ปลาซาบะอบเกลือ + ข้าวกล้อง + แตงกวา',kcal:390,protein:32,carb:48,fat:12,
+        ingredients:[{n:'ปลาซาบะ',q:'150g',c:222},{n:'ข้าวกล้องสุก',q:'150g',c:165},{n:'แตงกวา',q:'100g',c:16},{n:'เกลือทะเล',q:'½ ช้อนชา',c:0},{n:'มะนาว',q:'½ ลูก',c:11}],
+        steps:['ทาเกลือปลาทั้งสองด้าน พักไว้ 5 นาที','อบในเตา 200°C 15–18 นาที หรือย่างกระทะก็ได้','เสิร์ฟกับข้าวกล้อง แตงกวา บีบมะนาว'],tip:''},
+      {time:'ของว่าง',badge:'snack',name:'กล้วย + นมจืดแก้วเล็ก',kcal:178,protein:6,carb:28,fat:4,
+        ingredients:[{n:'กล้วย',q:'1 ลูก',c:72},{n:'นมจืดพร่องมันเนย',q:'150ml',c:53}],
+        steps:['กินได้เลย'],tip:''}
+    ]
+  },
+
+  w3d6:{
+    preview:'Smoothie Bowl · ข้าวกล้อง+หมูสับ · ไก่ผัดกะเพรา',
+    meals:[
+      {time:'เช้า',badge:'morning',name:'Smoothie Bowl: กล้วย+บลูเบอร์รี่+นม',kcal:278,protein:10,carb:46,fat:5,
+        ingredients:[{n:'กล้วยแช่แข็ง',q:'1 ลูก (80g)',c:72},{n:'บลูเบอร์รี่/เบอร์รี่รวม',q:'50g',c:28},{n:'นมจืด',q:'100ml',c:35},{n:'กรีกโยเกิร์ต',q:'50g',c:33},{n:'โอ๊ต (topping)',q:'2 ช้อนโต๊ะ',c:72},{n:'เมล็ดเจีย',q:'1 ช้อนชา',c:17}],
+        steps:['ปั่นกล้วยแช่แข็ง + เบอร์รี่ + นม + โยเกิร์ต จนข้น','เทใส่ชาม (ต้องข้นกว่าสมูทตี้ธรรมดา)','โรย topping: โอ๊ต เมล็ดเจีย ผลไม้สด'],tip:'กล้วยแช่แข็งล่วงหน้า ปั่นออกมาครีมมี่มาก'},
+      {time:'กลางวัน',badge:'lunch',name:'ข้าวกล้อง + หมูสับผัดผักรวม',kcal:418,protein:32,carb:48,fat:10,
+        ingredients:[{n:'หมูสับ',q:'120g',c:200},{n:'ข้าวกล้องสุก',q:'150g',c:165},{n:'พริกหยวก+แครอท',q:'100g รวม',c:40},{n:'กระเทียม',q:'2 กลีบ',c:8},{n:'ซีอิ๊วขาว',q:'1 ช้อนชา',c:6}],
+        steps:['ผัดกระเทียม ใส่หมูสับ ผัดจนสุก','ใส่ผัก ผัดต่อ 3 นาที ปรุงรส'],tip:''},
+      {time:'เย็น',badge:'dinner',name:'อกไก่ผัดขิงใบกะเพรา (น้ำมันน้อย)',kcal:348,protein:38,carb:8,fat:14,
+        ingredients:[{n:'อกไก่สับ',q:'150g',c:165},{n:'ใบกะเพรา',q:'1 กำ (20g)',c:5},{n:'กระเทียมสับ',q:'3 กลีบ',c:13},{n:'พริกขี้หนู',q:'3 เม็ด',c:8},{n:'น้ำมันมะกอก',q:'1½ ช้อนชา',c:60},{n:'ซีอิ๊วขาว',q:'1 ช้อนชา',c:6},{n:'น้ำปลา',q:'½ ช้อนชา',c:2}],
+        steps:['ตั้งกระทะน้ำมัน ไฟสูง ใส่กระเทียม + พริก ผัด 30 วิ','ใส่ไก่สับ ผัดจนสุก 4–5 นาที','ปรุงรสด้วยซีอิ๊ว+น้ำปลาน้อยมาก','ปิดไฟ ใส่กะเพรา คนเร็วๆ'],tip:'ใส่กะเพราตอนปิดไฟ สีเขียวสดและหอมกว่ามาก'},
+      {time:'ของว่าง',badge:'snack',name:'อัลมอนด์ + ฝรั่ง',kcal:158,protein:5,carb:16,fat:10,
+        ingredients:[{n:'อัลมอนด์',q:'15g',c:87},{n:'ฝรั่ง',q:'100g',c:34}],
+        steps:['กินได้เลย'],tip:''}
+    ]
+  },
+
+  w3d7:{
+    preview:'วันหยุด: Shakshuka · Grain Bowl · Nabe หม้อไฟ',
+    meals:[
+      {time:'เช้า',badge:'morning',name:'Shakshuka: ไข่ต้มในซอสมะเขือเทศ+พริก',kcal:298,protein:18,carb:18,fat:14,
+        ingredients:[{n:'ไข่ไก่',q:'2 ฟอง',c:143},{n:'มะเขือเทศหั่น',q:'2 ลูก (160g)',c:29},{n:'พริกหยวกแดง',q:'½ ลูก (60g)',c:19},{n:'หัวหอมสับ',q:'½ หัว (50g)',c:23},{n:'กระเทียม',q:'2 กลีบ',c:8},{n:'ยี่หร่าป่น',q:'½ ช้อนชา',c:4},{n:'พริกป่น',q:'¼ ช้อนชา',c:2},{n:'น้ำมันมะกอก',q:'1 ช้อนชา',c:40}],
+        steps:['ผัดหัวหอม+กระเทียมในน้ำมันมะกอก ไฟกลาง จนเหลืองหอม','ใส่พริกหยวก ผัด 2 นาที','ใส่มะเขือเทศ + ยี่หร่า + พริกป่น คนให้เข้ากัน ต้ม 5 นาที','ทำหลุมในซอส ตอกไข่ลง ปิดฝา 4–5 นาที (ไข่ขาวสุก ไข่แดงยังเหลว)'],
+        tip:'เมนูตะวันออกกลาง ทำง่าย หน้าตาสวย เหมาะมาก post วันหยุด'},
+      {time:'กลางวัน',badge:'lunch',name:'Grain Bowl: ข้าวกล้อง+ถั่วแดง+อะโวคาโด+ไข่',kcal:490,protein:24,carb:55,fat:18,
+        ingredients:[{n:'ข้าวกล้องสุก',q:'150g',c:165},{n:'ถั่วแดงกระป๋อง',q:'80g สะเด็ดน้ำ',c:102},{n:'อะโวคาโด',q:'½ ลูก (70g)',c:112},{n:'ไข่ต้ม',q:'1 ฟอง',c:71},{n:'แตงกวา',q:'60g',c:10},{n:'น้ำมะนาว+น้ำมันมะกอก',q:'1+1 ช้อนโต๊ะ',c:123}],
+        steps:['จัดข้าวกล้องในชาม','วางถั่วแดง อะโวคาโดหั่น แตงกวา และไข่ต้มผ่าครึ่ง','ราดน้ำสลัดมะนาว+น้ำมันมะกอก'],tip:''},
+      {time:'เย็น',badge:'dinner',name:'หม้อไฟผัก ไก่ เต้าหู้ สไตล์ญี่ปุ่น (Nabe)',kcal:338,protein:28,carb:25,fat:10,
+        ingredients:[{n:'อกไก่หั่นชิ้น',q:'100g',c:110},{n:'เต้าหู้แข็ง',q:'100g',c:80},{n:'ผักรวม (คะน้า,เห็ด,กาดขาว,แครอท)',q:'200g',c:65},{n:'วุ้นเส้น',q:'20g',c:69},{n:'น้ำสต็อกไก่',q:'500ml',c:10},{n:'ซีอิ๊วขาว',q:'1½ ช้อนโต๊ะ',c:15},{n:'น้ำมันงา',q:'1 ช้อนชา',c:40}],
+        steps:['ต้มน้ำสต็อกกับซีอิ๊วขาวในหม้อ','ใส่แครอทก่อน ต้ม 5 นาที','ใส่ไก่ เต้าหู้ เห็ด วุ้นเส้น ต้ม 5–7 นาที','ใส่ผักใบ ต้ม 1–2 นาที ราดน้ำมันงา'],
+        tip:'วันหยุด ทำแบบ one-pot อร่อยดี ล้างหม้อเดียว'},
+      {time:'ของว่าง',badge:'snack',name:'ผลไม้รวม + โยเกิร์ต',kcal:148,protein:10,carb:20,fat:2,
+        ingredients:[{n:'ผลไม้รวม',q:'100g',c:60},{n:'กรีกโยเกิร์ต',q:'100g',c:87}],
+        steps:['ตักกินด้วยกัน'],tip:''}
+    ]
+  },
+
+  // ══════ WEEK 4 ══════
+  w4d1:{
+    preview:'โอ๊ตแครอท · แซลมอนย่าง · ต้มยำเห็ด',
+    meals:[
+      {time:'เช้า',badge:'morning',name:'โอ๊ตมีล + แครอทขูด + เมล็ดเจีย',kcal:298,protein:10,carb:52,fat:6,
+        ingredients:[{n:'โอ๊ต',q:'50g',c:180},{n:'แครอทขูด',q:'50g',c:20},{n:'นมจืด',q:'150ml',c:53},{n:'เมล็ดเจีย',q:'10g',c:49}],
+        steps:['ต้มโอ๊ตกับนม 5 นาที','ใส่แครอทขูด+เมล็ดเจีย คน 1 นาที'],tip:''},
+      {time:'กลางวัน',badge:'lunch',name:'ข้าวกล้อง + แซลมอนย่าง + บรอกโคลีนึ่ง',kcal:470,protein:38,carb:46,fat:16,
+        ingredients:[{n:'แซลมอน',q:'150g',c:220},{n:'ข้าวกล้องสุก',q:'150g',c:165},{n:'บรอกโคลี',q:'100g',c:34},{n:'น้ำมันมะกอก',q:'1 ช้อนชา',c:40},{n:'เกลือ+พริกไทย',q:'นิดหน่อย',c:3}],
+        steps:['ย่างแซลมอน skin-down ก่อน 4 นาที พลิก 2 นาที','นึ่งบรอกโคลี 5 นาที','จัดจานกับข้าวกล้อง'],tip:''},
+      {time:'เย็น',badge:'dinner',name:'ต้มยำเห็ดรวม + ข้าวกล้อง (วีแกน)',kcal:298,protein:10,carb:48,fat:4,
+        ingredients:[{n:'เห็ดรวม (ฟาง,หอม,เข็มทอง)',q:'200g',c:60},{n:'ข้าวกล้องสุก',q:'120g',c:132},{n:'ตะไคร้ ข่า ใบมะกรูด',q:'ตามปกติ',c:20},{n:'น้ำมะนาว',q:'2 ช้อนโต๊ะ',c:8},{n:'ซีอิ๊วขาว',q:'1 ช้อนชา',c:6}],
+        steps:['ต้มน้ำ ใส่เครื่องสมุนไพร','ใส่เห็ดรวม ต้ม 5 นาที','ปิดไฟ ใส่มะนาว+ซีอิ๊ว','เสิร์ฟกับข้าวกล้อง'],tip:'เห็ดรวมให้ umami ดีมาก ไม่ต้องการเนื้อสัตว์เลย'},
+      {time:'ของว่าง',badge:'snack',name:'โยเกิร์ต + กล้วยน้ำว้า',kcal:138,protein:10,carb:18,fat:2,
+        ingredients:[{n:'กรีกโยเกิร์ต',q:'100g',c:87},{n:'กล้วย',q:'½ ลูก',c:36}],
+        steps:['กินได้เลย'],tip:''}
+    ]
+  },
+
+  w4d2:{
+    preview:'ไข่+ขนมปังโฮล · ไก่หมักมะนาวย่าง · ปลากะพงนึ่งเต้าเจี้ยว',
+    meals:[
+      {time:'เช้า',badge:'morning',name:'ไข่ต้ม 2 ฟอง + ขนมปังโฮลวีต + มะเขือเทศ',kcal:268,protein:16,carb:22,fat:11,
+        ingredients:[{n:'ไข่ไก่',q:'2 ฟอง',c:143},{n:'ขนมปังโฮลวีต',q:'1 แผ่น (35g)',c:82},{n:'มะเขือเทศ',q:'1 ลูก',c:18}],
+        steps:['ต้มไข่ 8 นาที ปอกเปลือก','ปิ้งขนมปัง เสิร์ฟพร้อมมะเขือเทศหั่น'],tip:''},
+      {time:'กลางวัน',badge:'lunch',name:'อกไก่หมักมะนาวย่าง + ข้าวกล้อง + สลัด',kcal:440,protein:40,carb:48,fat:9,
+        ingredients:[{n:'อกไก่',q:'150g',c:165},{n:'ข้าวกล้องสุก',q:'150g',c:165},{n:'ผักสลัด',q:'80g',c:14},{n:'น้ำมะนาว',q:'2 ช้อนโต๊ะ',c:8},{n:'กระเทียมสับ',q:'2 กลีบ',c:8},{n:'น้ำมันมะกอก',q:'1 ช้อนชา',c:40}],
+        steps:['หมักไก่กับมะนาว+กระเทียม+น้ำมัน 20+ นาที','ย่างกระทะ ด้านละ 5–6 นาที','เสิร์ฟกับข้าวกล้อง สลัด'],tip:''},
+      {time:'เย็น',badge:'dinner',name:'ปลากะพงนึ่งเต้าเจี้ยว + เห็ดหอม',kcal:278,protein:34,carb:10,fat:8,
+        ingredients:[{n:'ปลากะพง',q:'180g',c:150},{n:'เห็ดหอมสด',q:'60g',c:22},{n:'เต้าเจี้ยวขาว',q:'1 ช้อนโต๊ะ',c:30},{n:'ขิงเส้น',q:'10g',c:8},{n:'น้ำมันงา',q:'1 ช้อนชา',c:40},{n:'ต้นหอม',q:'2 ต้น',c:6}],
+        steps:['วางเห็ดหอม+ขิงในจาน วางปลาทับ','ทาเต้าเจี้ยวบนปลา นึ่ง 14–16 นาที','ราดน้ำมันงา โรยต้นหอม'],tip:'เต้าเจี้ยวให้ความเค็มและ umami โดยไม่ต้องใส่เกลือเพิ่ม'},
+      {time:'ของว่าง',badge:'snack',name:'ถั่วอบ + ส้ม',kcal:158,protein:5,carb:22,fat:7,
+        ingredients:[{n:'ถั่วอบรวม',q:'15g',c:86},{n:'ส้ม',q:'1 ลูก (120g)',c:56}],
+        steps:['ปอกส้ม กินพร้อมถั่ว'],tip:''}
+    ]
+  },
+
+  w4d3:{
+    preview:'Green Smoothie · หมูสันในย่าง · ไก่ตุ๋นขิง',
+    meals:[
+      {time:'เช้า',badge:'morning',name:'Green Smoothie + เมล็ดเจียลอย',kcal:248,protein:10,carb:38,fat:6,
+        ingredients:[{n:'ผักโขม',q:'30g',c:7},{n:'กล้วย',q:'1 ลูก',c:72},{n:'นมจืด',q:'200ml',c:70},{n:'กรีกโยเกิร์ต',q:'50g',c:33},{n:'เมล็ดเจีย',q:'1 ช้อนชา',c:17},{n:'น้ำแข็ง',q:'½ ถ้วย',c:0}],
+        steps:['ปั่นทุกอย่างยกเว้นเมล็ดเจีย 1 นาที','เทใส่แก้ว โรยเมล็ดเจีย'],tip:''},
+      {time:'กลางวัน',badge:'lunch',name:'ข้าวกล้อง + หมูสันในย่าง + แตงกวาฝาน',kcal:428,protein:36,carb:48,fat:10,
+        ingredients:[{n:'หมูสันใน',q:'150g',c:187},{n:'ข้าวกล้องสุก',q:'150g',c:165},{n:'แตงกวา',q:'100g',c:16},{n:'น้ำมันมะกอก',q:'1 ช้อนชา',c:40},{n:'พริกไทย+เกลือ',q:'นิดหน่อย',c:3}],
+        steps:['โรยเกลือ+พริกไทยบนหมู','ย่างกระทะไฟสูง ด้านละ 3–4 นาที','พักหมู 5 นาที หั่น เสิร์ฟ'],tip:''},
+      {time:'เย็น',badge:'dinner',name:'ไก่ตุ๋นขิงใส่เห็ดหอมเห็ดฟาง',kcal:338,protein:32,carb:12,fat:12,
+        ingredients:[{n:'อกไก่หั่นชิ้น',q:'150g',c:165},{n:'เห็ดหอม+เห็ดฟาง',q:'120g รวม',c:48},{n:'ขิงสดหั่นแว่น',q:'20g',c:16},{n:'น้ำสต็อก',q:'400ml',c:10},{n:'ซีอิ๊วขาว',q:'1 ช้อนชา',c:6},{n:'น้ำมันงา',q:'1 ช้อนชา',c:40}],
+        steps:['ต้มน้ำสต็อกกับขิง','ใส่ไก่ ช้อนฟอง ต้ม 8 นาที','ใส่เห็ด ต้มต่อ 5 นาที','ปรุงรสด้วยซีอิ๊ว น้ำมันงา'],tip:'ตุ๋นช้าๆ ไฟอ่อน ไก่จะนุ่มมาก'},
+      {time:'ของว่าง',badge:'snack',name:'กรีกโยเกิร์ต + น้ำผึ้ง',kcal:118,protein:10,carb:12,fat:2,
+        ingredients:[{n:'กรีกโยเกิร์ต',q:'100g',c:87},{n:'น้ำผึ้ง',q:'1 ช้อนชา',c:21}],
+        steps:['หยดน้ำผึ้งบนโยเกิร์ต'],tip:''}
+    ]
+  },
+
+  w4d4:{
+    preview:'Baked Oatmeal · สลัดทูน่า · ปลาซาบะอบ+มันเทศ',
+    meals:[
+      {time:'เช้า',badge:'morning',name:'Baked Oatmeal: โอ๊ต+แอปเปิ้ล+อบเชย',kcal:308,protein:10,carb:54,fat:6,
+        ingredients:[{n:'โอ๊ต',q:'50g',c:180},{n:'แอปเปิ้ลหั่น',q:'1 ลูก (150g)',c:78},{n:'นมจืด',q:'150ml',c:53},{n:'อบเชย',q:'½ ช้อนชา',c:3},{n:'ไข่ไก่',q:'1 ฟอง',c:71},{n:'เบกกิ้งพาวเดอร์',q:'½ ช้อนชา',c:0}],
+        steps:['คืนก่อน: ผสมโอ๊ต+นม+ไข่+อบเชย+เบกกิ้งพาวเดอร์ เทใส่พิมพ์ วางแอปเปิ้ลด้านบน','อบ 180°C 25 นาที ปิดฟอยล์ไว้','เช้า: อุ่น 2 นาที กินได้เลย'],tip:'ทำตอนเย็น อบ ปิดฝา แช่ตู้เย็น กินเช้าได้ทั้งอาทิตย์'},
+      {time:'กลางวัน',badge:'lunch',name:'สลัดทูน่า + ข้าวกล้อง + ผักสด',kcal:358,protein:34,carb:46,fat:9,
+        ingredients:[{n:'ทูน่ากระป๋องในน้ำ',q:'1 กระป๋อง (130g)',c:130},{n:'ข้าวกล้องสุก',q:'120g',c:132},{n:'ผักสลัด',q:'60g',c:10},{n:'แตงกวา',q:'60g',c:10},{n:'น้ำมันมะกอก',q:'1 ช้อนโต๊ะ',c:119},{n:'มะนาว',q:'1 ช้อนโต๊ะ',c:4}],
+        steps:['สะเด็ดน้ำทูน่า จัดในชามกับผักและข้าว','ราดน้ำสลัดมะนาว+น้ำมันมะกอก'],tip:''},
+      {time:'เย็น',badge:'dinner',name:'ปลาซาบะอบกระเทียม + มันเทศอบ',kcal:398,protein:32,carb:30,fat:14,
+        ingredients:[{n:'ปลาซาบะ',q:'150g',c:222},{n:'มันเทศ',q:'150g',c:129},{n:'กระเทียมสับ',q:'3 กลีบ',c:13},{n:'น้ำมันมะกอก',q:'1 ช้อนชา',c:40},{n:'โรสแมรี่แห้ง',q:'½ ช้อนชา',c:2}],
+        steps:['ตั้งเตา 200°C','ทาปลาด้วยกระเทียม+น้ำมัน หั่นมันเทศทาน้ำมัน','วางบนถาดอบพร้อมกัน อบ 20 นาที'],tip:''},
+      {time:'ของว่าง',badge:'snack',name:'กล้วย + วอลนัท',kcal:168,protein:4,carb:22,fat:10,
+        ingredients:[{n:'กล้วย',q:'1 ลูก',c:72},{n:'วอลนัท',q:'15g',c:98}],
+        steps:['กินได้เลย'],tip:''}
+    ]
+  },
+
+  w4d5:{
+    preview:'ไข่คน+พริกหยวก · ไก่ผัดคะน้า+ข้าวกล้อง · เต้าหู้อบ',
+    meals:[
+      {time:'เช้า',badge:'morning',name:'ไข่คน 2 ฟอง + ผักรวม + พริกหยวก',kcal:240,protein:14,carb:8,fat:15,
+        ingredients:[{n:'ไข่ไก่',q:'2 ฟอง',c:143},{n:'พริกหยวก',q:'60g',c:19},{n:'ผักโขม',q:'30g',c:7},{n:'น้ำมันมะกอก',q:'1 ช้อนชา',c:40}],
+        steps:['ผัดพริกหยวก+ผักโขมในน้ำมัน 2 นาที','เทไข่ที่ตีแล้วลง คนเบาๆ จนสุก'],tip:''},
+      {time:'กลางวัน',badge:'lunch',name:'ข้าวกล้อง + อกไก่ผัดน้ำมันหอยน้อย + คะน้า',kcal:428,protein:38,carb:48,fat:9,
+        ingredients:[{n:'อกไก่หั่นชิ้น',q:'150g',c:165},{n:'ข้าวกล้องสุก',q:'150g',c:165},{n:'คะน้า',q:'80g',c:25},{n:'กระเทียมสับ',q:'3 กลีบ',c:13},{n:'น้ำมันหอย',q:'1 ช้อนชา',c:12},{n:'ซีอิ๊วขาว',q:'½ ช้อนชา',c:3},{n:'น้ำมันมะกอก',q:'1 ช้อนชา',c:40}],
+        steps:['ผัดกระเทียมในน้ำมัน','ใส่ไก่ ผัดไฟสูง 5 นาที','ใส่คะน้า + น้ำมันหอย + ซีอิ๊ว ผัดต่อ 2 นาที'],tip:'น้ำมันหอยใช้แค่น้อย รสพอดีไม่เค็มเกิน'},
+      {time:'เย็น',badge:'dinner',name:'เต้าหู้อบสมุนไพร + ผักนึ่งรวม',kcal:278,protein:18,carb:16,fat:14,
+        ingredients:[{n:'เต้าหู้แข็ง',q:'200g',c:160},{n:'ผักรวม (บรอกโคลี,แครอท)',q:'150g',c:58},{n:'ซีอิ๊วขาว',q:'1 ช้อนโต๊ะ',c:10},{n:'น้ำมันมะกอก',q:'1 ช้อนโต๊ะ',c:119},{n:'กระเทียมผง',q:'½ ช้อนชา',c:4},{n:'พริกไทยดำ',q:'½ ช้อนชา',c:3}],
+        steps:['กดน้ำออกจากเต้าหู้ หั่นก้อน','คลุกกับซีอิ๊ว+น้ำมัน+กระเทียมผง+พริกไทย','เรียงบนถาดอบ อบ 200°C 25 นาที พลิกครั้งนึงตอนกึ่งกลาง','นึ่งผักพร้อมกัน'],tip:'เต้าหู้อบกรอบนอกนุ่มในมาก ดีกว่าทอดมาก'},
+      {time:'ของว่าง',badge:'snack',name:'ฝรั่ง + โยเกิร์ต',kcal:138,protein:10,carb:18,fat:2,
+        ingredients:[{n:'ฝรั่ง',q:'120g',c:41},{n:'กรีกโยเกิร์ต',q:'100g',c:87}],
+        steps:['หั่นฝรั่ง กินกับโยเกิร์ต'],tip:''}
+    ]
+  },
+
+  w4d6:{
+    preview:'Overnight Oats+ผลไม้ · กุ้งผัดกระเทียม · ไก่นึ่ง+ซุปผัก',
+    meals:[
+      {time:'เช้า',badge:'morning',name:'Overnight Oats + ผลไม้รวม + เมล็ดเจีย',kcal:318,protein:14,carb:52,fat:7,
+        ingredients:[{n:'โอ๊ต',q:'50g',c:180},{n:'นมจืด',q:'150ml',c:53},{n:'กรีกโยเกิร์ต',q:'50g',c:33},{n:'เมล็ดเจีย',q:'10g',c:49},{n:'ผลไม้ตามชอบ',q:'80g',c:50}],
+        steps:['คืนก่อน: ผสมทุกอย่างยกเว้นผลไม้ แช่ตู้เย็น','เช้า: ใส่ผลไม้ กินได้เลย'],tip:''},
+      {time:'กลางวัน',badge:'lunch',name:'ข้าวกล้อง + กุ้งผัดกระเทียมพริกไทย + ผัก',kcal:408,protein:32,carb:48,fat:10,
+        ingredients:[{n:'กุ้งสด',q:'150g',c:113},{n:'ข้าวกล้องสุก',q:'150g',c:165},{n:'กระเทียมสับ',q:'4 กลีบ',c:18},{n:'พริกไทยดำหยาบ',q:'1 ช้อนชา',c:5},{n:'น้ำมันมะกอก',q:'1½ ช้อนชา',c:60},{n:'ซีอิ๊วขาว',q:'1 ช้อนชา',c:6},{n:'ผักชีโรย',q:'นิดหน่อย',c:2}],
+        steps:['แกะเปลือกกุ้ง ผ่าหลัง ล้างให้สะอาด ซับแห้ง','ตั้งกระทะน้ำมัน ไฟสูง ใส่กระเทียม ผัด 30 วิ','ใส่กุ้ง โรยพริกไทย ผัดไฟสูง 3–4 นาที ใส่ซีอิ๊ว','โรยผักชี เสิร์ฟกับข้าวกล้อง'],tip:'กุ้งสุกเมื่อม้วนตัวและเปลี่ยนสี อย่าผัดนานเกินจะยาง'},
+      {time:'เย็น',badge:'dinner',name:'อกไก่นึ่งสมุนไพร + ซุปผักใส',kcal:298,protein:34,carb:16,fat:6,
+        ingredients:[{n:'อกไก่',q:'130g',c:143},{n:'ผักซุปรวม (แครอท,ฟักทอง,ข้าวโพด)',q:'200g',c:80},{n:'ตะไคร้',q:'1 ต้น',c:5},{n:'น้ำสต็อก',q:'400ml',c:10},{n:'เกลือ',q:'½ ช้อนชา',c:0}],
+        steps:['นึ่งอกไก่กับตะไคร้ 18–20 นาที','ต้มผักในน้ำสต็อก 15 นาที ปรุงรสเกลือ','เสิร์ฟพร้อมกัน'],tip:''},
+      {time:'ของว่าง',badge:'snack',name:'แตงโม + อัลมอนด์',kcal:140,protein:4,carb:18,fat:8,
+        ingredients:[{n:'แตงโม',q:'200g',c:56},{n:'อัลมอนด์',q:'15g',c:87}],
+        steps:['หั่นแตงโม กินพร้อมอัลมอนด์'],tip:''}
+    ]
+  },
+
+  w4d7:{
+    preview:'🎉 วันที่ 30 — ฉลองครบเดือน!',
+    meals:[
+      {time:'เช้า',badge:'morning',name:'Eggs Benedict คลีน: ขนมปังโฮล+ไข่ลวก+อะโวคาโด',kcal:378,protein:18,carb:24,fat:22,
+        ingredients:[{n:'ขนมปังโฮลวีต',q:'2 แผ่น (70g)',c:164},{n:'ไข่ไก่',q:'2 ฟอง',c:143},{n:'อะโวคาโด',q:'½ ลูก',c:112},{n:'น้ำส้มสายชู',q:'1 ช้อนโต๊ะ (สำหรับลวกไข่)',c:0},{n:'พริกไทย+เกลือ',q:'นิดหน่อย',c:3}],
+        steps:['ปิ้งขนมปัง บดอะโวคาโดกับเกลือ+มะนาวทาด้านบน','ต้มน้ำจนเกือบเดือด ใส่น้ำส้มสายชู คนเป็นวงกลม','ตอกไข่ลงในจุดกลาง ลวก 3–4 นาที (ไข่แดงยังเหลว)','วางไข่ลวกบนขนมปัง โรยพริกไทยดำ'],
+        tip:'ไข่ลวก (Poached Egg) ไม่ยากอย่างที่คิด น้ำส้มสายชูช่วยให้ขาวไข่จับตัวได้ดี'},
+      {time:'กลางวัน',badge:'lunch',name:'Japanese Brunch: ข้าวกล้อง+ปลาดิบ+มิโซซุป',kcal:498,protein:38,carb:50,fat:14,
+        ingredients:[{n:'ปลาแซลมอน/ทูน่าดิบ (เกรด Sashimi)',q:'120g',c:156},{n:'ข้าวกล้องสุก',q:'150g',c:165},{n:'ซีอิ๊วขาว',q:'1 ช้อนชา',c:6},{n:'น้ำมันงา',q:'½ ช้อนชา',c:20},{n:'งาขาว',q:'1 ช้อนชา',c:17},{n:'เพสมิโซ',q:'2 ช้อนชา',c:40},{n:'เต้าหู้ออ่น',q:'80g',c:44},{n:'น้ำร้อน',q:'300ml',c:0}],
+        steps:['หั่นปลาเป็นก้อน คลุกซีอิ๊ว+น้ำมันงา','ต้มน้ำ ละลายมิโซ (ไม่ต้มพอเดือด) ใส่เต้าหู้','จัดข้าวในชาม วางปลา โรยงา เสิร์ฟพร้อมมิโซซุป'],
+        tip:''},
+      {time:'เย็น',badge:'dinner',name:'🎉 Cheat Meal — อะไรก็ได้ที่อยาก!',kcal:0,protein:0,carb:0,fat:0,
+        ingredients:[{n:'ทุกอย่างที่อยากกินมาทั้งเดือน 😄',q:'ตามใจ',c:0}],
+        steps:['กินคลีนมา 30 วันแล้ว','ให้รางวัลตัวเองสักมื้อ','ไม่ต้องรู้สึกผิดเลย!'],
+        tip:'การกิน cheat meal เป็นครั้งคราวไม่ทำให้ progress เสียหาย ช่วยให้ stick กับแผนระยะยาวได้ดีกว่าด้วย'},
+      {time:'ของว่าง',badge:'snack',name:'🎂 เค้กหรือขนมหวาน 1 ชิ้น',kcal:0,protein:0,carb:0,fat:0,
+        ingredients:[{n:'อะไรก็ได้ที่ชอบ',q:'ตามใจ',c:0}],
+        steps:['สมควรแล้ว! คุณทำได้ 🎉'],tip:''}
+    ]
+  },
+};
+
+const groceries = {
+  g1:{
+    budget:'ของแห้งและเครื่องปรุงในส่วนสุดท้าย ซื้อครั้งแรกครั้งเดียว ใช้ได้ทั้งเดือน',
+    sections:[
+      {cat:'🥩 โปรตีนสด (สำหรับ 7 วัน)',items:[
+        {n:'อกไก่ (ไม่มีหนัง)',q:'1 กก.',c:'prot'},{n:'ไข่ไก่',q:'2 แผง (20 ฟอง)',c:'prot'},{n:'ปลากะพงขาว',q:'1 ตัว (~400g)',c:'prot'},{n:'หมูสันใน',q:'400g',c:'prot'},{n:'ทูน่ากระป๋องในน้ำ',q:'3 กระป๋อง',c:'prot'},{n:'เต้าหู้แข็ง',q:'2 ก้อน',c:'prot'}
+      ]},
+      {cat:'🌾 คาร์บ',items:[
+        {n:'ข้าวกล้อง',q:'2 กก.',c:'carb'},{n:'โอ๊ตมีล (Rolled Oats)',q:'500g',c:'carb'},{n:'มันเทศ',q:'500g',c:'carb'},{n:'เส้นเล็ก/เส้นหมี่',q:'200g',c:'carb'},{n:'ขนมปังโฮลวีต',q:'1 ถุง',c:'carb'}
+      ]},
+      {cat:'🥦 ผัก',items:[
+        {n:'บรอกโคลี',q:'2 หัว'},{n:'แครอท',q:'6 หัว'},{n:'ฟักทอง',q:'½ ลูก (~500g)'},{n:'ผักกาดขาว',q:'1 ต้น'},{n:'เห็ดฟาง',q:'200g'},{n:'ผักบุ้ง',q:'2 กำ'},{n:'ผักสลัดมิกซ์',q:'1 ถุง'},{n:'ผักโขมสด',q:'100g'},{n:'มะเขือเทศ',q:'8 ลูก'},{n:'แตงกวา',q:'4 ลูก'},{n:'พริกหยวก',q:'2 ลูก'}
+      ]},
+      {cat:'🍌 ผลไม้',items:[
+        {n:'กล้วยน้ำว้า',q:'2 หวี'},{n:'ฝรั่ง',q:'4 ลูก'},{n:'แตงโม',q:'½ ลูก'},{n:'แอปเปิ้ล',q:'3 ลูก'}
+      ]},
+      {cat:'🌿 เครื่องสมุนไพรสด',items:[
+        {n:'กระเทียม',q:'2 หัวใหญ่'},{n:'ขิงสด',q:'1 หัว (~100g)'},{n:'ตะไคร้',q:'5 ต้น'},{n:'ใบมะกรูด',q:'10 ใบ'},{n:'ข่า',q:'1 หัว'},{n:'มะนาว',q:'10 ลูก'},{n:'พริกขี้หนู',q:'50g'},{n:'ต้นหอม+ผักชี',q:'1 กำ'}
+      ]},
+      {cat:'🫙 ของแห้ง/เครื่องปรุง (ซื้อครั้งเดียวทั้งเดือน)',items:[
+        {n:'น้ำมันมะกอก Extra Virgin',q:'1 ขวด (250ml)',c:'pantry'},{n:'ซีอิ๊วขาวโซเดียมต่ำ',q:'1 ขวด',c:'pantry'},{n:'น้ำปลา',q:'1 ขวด',c:'pantry'},{n:'น้ำมันงา',q:'1 ขวด (100ml)',c:'pantry'},{n:'เกลือทะเล',q:'1 กล่อง',c:'pantry'},{n:'พริกไทยดำ (บด)',q:'1 กล่อง',c:'pantry'},{n:'อบเชยป่น',q:'1 กล่อง',c:'pantry'},{n:'เมล็ดเจีย',q:'100g',c:'pantry'},{n:'อัลมอนด์อบ (ไม่เค็ม)',q:'200g',c:'pantry'},{n:'วอลนัทอบ',q:'100g',c:'pantry'},{n:'กรีกโยเกิร์ตรสธรรมชาติ',q:'2 ถ้วย (500g)',c:'prot'},{n:'นมจืดพร่องมันเนย',q:'2 ลิตร',c:'pantry'}
+      ]}
+    ]
+  },
+  g2:{
+    budget:'อาทิตย์ 2 เน้นหลากหลายโปรตีนมากขึ้น และเพิ่มวัตถุดิบใหม่',
+    sections:[
+      {cat:'🥩 โปรตีนสด',items:[
+        {n:'อกไก่',q:'800g',c:'prot'},{n:'ไข่ไก่',q:'1 แผง',c:'prot'},{n:'ปลาทับทิม',q:'1 ตัว',c:'prot'},{n:'หมูสันใน',q:'300g',c:'prot'},{n:'ปลาซาบะ (แมคเคอเรล)',q:'3 ตัว',c:'prot'},{n:'แซลมอน',q:'1 ชิ้น (~300g)',c:'prot'}
+      ]},
+      {cat:'🌾 คาร์บ (เติมถ้าหมด)',items:[
+        {n:'ข้าวกล้อง',q:'เติมถ้าเหลือน้อย',c:'carb'},{n:'วุ้นเส้น',q:'100g',c:'carb'},{n:'ควินัว (ถ้ามี)',q:'200g',c:'carb'}
+      ]},
+      {cat:'🥦 ผักและผลไม้',items:[
+        {n:'ผักโขมสด',q:'200g'},{n:'เห็ดหลากชนิด (ชิตาเกะ,หอม)',q:'300g'},{n:'คะน้า',q:'2 กำ'},{n:'พริกหยวกแดง',q:'3 ลูก'},{n:'อะโวคาโด',q:'3 ลูก'},{n:'กล้วย',q:'2 หวี'},{n:'แอปเปิ้ล',q:'4 ลูก'},{n:'สตรอว์เบอร์รี',q:'200g (ถ้ามี)'}
+      ]},
+      {cat:'🫙 เพิ่มเติมอาทิตย์ 2',items:[
+        {n:'ซุปมิโซกล่อง',q:'1 กล่อง',c:'pantry'},{n:'สาหร่ายวากาเมะ',q:'20g',c:'pantry'},{n:'เนยถั่วธรรมชาติ (Natural PB)',q:'1 กล่อง',c:'pantry'},{n:'มัสตาร์ดเม็ด (Dijon)',q:'1 ขวด',c:'pantry'},{n:'กรีกโยเกิร์ต',q:'500g เพิ่ม',c:'prot'}
+      ]}
+    ]
+  },
+  g3:{
+    budget:'อาทิตย์ 3 เพิ่มอาหารทะเลและถั่ว สำหรับสัปดาห์ที่คล่องมือแล้ว',
+    sections:[
+      {cat:'🥩 โปรตีนสด',items:[
+        {n:'อกไก่',q:'800g',c:'prot'},{n:'ไข่ไก่',q:'1 แผง',c:'prot'},{n:'กุ้งสด/แช่แข็ง',q:'400g',c:'prot'},{n:'แซลมอน',q:'2 ชิ้น (~300g)',c:'prot'},{n:'เต้าหู้แข็ง',q:'3 ก้อน',c:'prot'}
+      ]},
+      {cat:'🌾 คาร์บ',items:[
+        {n:'ข้าวกล้อง',q:'เติมตามต้องการ',c:'carb'},{n:'มันเทศ',q:'500g',c:'carb'}
+      ]},
+      {cat:'🥦 ผักและผลไม้',items:[
+        {n:'มะเขือเทศ/มะเขือพวง',q:'200g'},{n:'เห็ดรวม',q:'300g'},{n:'บรอกโคลี',q:'2 หัว'},{n:'ผักบุ้ง',q:'2 กำ'},{n:'แตงกวา',q:'4 ลูก'},{n:'กล้วย',q:'2 หวี'},{n:'ฝรั่ง',q:'4 ลูก'},{n:'ส้ม',q:'4 ลูก'}
+      ]},
+      {cat:'🫙 เพิ่มเติมอาทิตย์ 3',items:[
+        {n:'ถั่วแดงกระป๋อง',q:'1 กระป๋อง',c:'pantry'},{n:'ถั่วชิกพีกระป๋อง',q:'1 กระป๋อง',c:'pantry'},{n:'พริกแกงเขียวหวาน',q:'1 กล่องเล็ก',c:'pantry'},{n:'กะทิกล่องเล็ก',q:'1 กล่อง (160ml)',c:'pantry'},{n:'เมล็ดทานตะวันอบ',q:'100g',c:'pantry'}
+      ]}
+    ]
+  },
+  g4:{
+    budget:'อาทิตย์สุดท้าย ซื้อเหมือนเดิมบวกของพิเศษวันที่ 30',
+    sections:[
+      {cat:'🥩 โปรตีนสด',items:[
+        {n:'อกไก่',q:'1 กก.',c:'prot'},{n:'ไข่ไก่',q:'1 แผง',c:'prot'},{n:'ปลากะพง',q:'1 ตัว',c:'prot'},{n:'ปลาซาบะ',q:'2 ตัว',c:'prot'},{n:'กุ้ง',q:'300g',c:'prot'},{n:'แซลมอน/ปลาดิบ (Sashimi Grade)',q:'150g สำหรับวันสุดท้าย',c:'prot'}
+      ]},
+      {cat:'🌾 คาร์บ',items:[
+        {n:'ข้าวกล้อง',q:'เติมตามต้องการ',c:'carb'},{n:'ขนมปังโฮลวีต',q:'1 ถุง',c:'carb'},{n:'โอ๊ตมีล',q:'เติมถ้าหมด',c:'carb'}
+      ]},
+      {cat:'🥦 ผักและผลไม้',items:[
+        {n:'ผักรวมตามชอบ',q:'ตามปกติ'},{n:'เห็ดหอม',q:'100g'},{n:'กล้วย',q:'2 หวี'},{n:'แตงโม',q:'1 ชิ้น'},{n:'อะโวคาโด',q:'2 ลูก (สำหรับวันสุดท้าย)'}
+      ]},
+      {cat:'🎉 พิเศษวันที่ 30',items:[
+        {n:'เพสมิโซขาว',q:'1 กล่อง',c:'pantry'},{n:'น้ำส้มสายชูขาว (สำหรับ Poached Egg)',q:'1 ขวดเล็ก',c:'pantry'},{n:'กรีกโยเกิร์ต',q:'500g',c:'prot'},{n:'ขนมหวานที่อยากกิน',q:'1 ชิ้น 🎉',c:'pantry'}
+      ]}
+    ]
+  }
+};
+
+// ─── RENDER WEEK ─────────────────────────────────────────
+function renderWeek(wid, color){
+  const container = document.getElementById(wid);
+  if(!container || container.dataset.rendered) return;
+  container.dataset.rendered='1';
+  const keys = Object.keys(mealDB).filter(k=>k.startsWith(wid+'d')).sort();
+  let html = `<div class="week-band" style="background:${color}">
+    <div class="wband-num">${wid.replace('w','').padStart(2,'0')}</div>
+    <div class="wband-text"><h2>${['เริ่มต้น','หลากหลาย','เข้าจังหวะ','คล่องแคล่ว'][parseInt(wid.replace('w',''))-1]}</h2><p>กดชื่อวันเพื่อดูวิธีทำและสารอาหาร</p></div>
+  </div>`;
+  keys.forEach((k,i)=>{
+    const d = mealDB[k];
+    const totalKcal = d.meals.reduce((s,m)=>s+(m.kcal||0),0);
+    const totalP = d.meals.reduce((s,m)=>s+(m.protein||0),0);
+    html += `<div class="day-card">
+      <div class="day-hdr" onclick="toggleDay(this)">
+        <div class="day-left">
+          <div class="day-pip"></div>
+          <div><div class="day-lbl">${DAY_TH[i]} — วันที่ ${(parseInt(wid.replace('w',''))-1)*7+i+1}</div>
+          <div class="day-prev">${d.preview}</div></div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:11px;font-weight:700;color:#2D5A3D">${totalKcal} kcal</div>
+          <div style="font-size:10px;color:#aaa">P ${totalP}g</div>
+        </div>
+        <div class="day-arr">▼</div>
+      </div>
+      <div class="day-body">${d.meals.map(m=>renderMeal(m)).join('')}</div>
+    </div>`;
+  });
+  container.innerHTML = html;
+}
+
+function renderMeal(m){
+  const hasRecipe = m.ingredients && m.ingredients.length > 0;
+  return `<div class="meal-block">
+    <div class="meal-top">
+      <div class="meal-left">
+        <span class="meal-time-badge badge-${m.badge}">${m.time}</span>
+        <div class="meal-name-main">${m.name}</div>
+      </div>
+    </div>
+    <div class="macro-chips">
+      ${m.kcal ? `<span class="chip chip-kcal">⚡ ${m.kcal} kcal</span>` : ''}
+      ${m.protein ? `<span class="chip chip-p">🥩 โปรตีน ${m.protein}g</span>` : ''}
+      ${m.carb ? `<span class="chip chip-c">🌾 คาร์บ ${m.carb}g</span>` : ''}
+      ${m.fat ? `<span class="chip chip-f">🫒 ไขมัน ${m.fat}g</span>` : ''}
+    </div>
+    ${hasRecipe ? `
+    <div class="section-label">ส่วนผสม</div>
+    <table class="ing-table">
+      ${m.ingredients.map(ing=>`<tr>
+        <td class="ing-name">${ing.n}</td>
+        <td class="ing-qty">${ing.q}</td>
+        <td class="ing-cal">${ing.c ? ing.c+' cal' : ''}</td>
+      </tr>`).join('')}
+    </table>
+    ${m.steps && m.steps.length ? `
+    <div class="section-label">วิธีทำ</div>
+    <ul class="steps-list">
+      ${m.steps.map((s,i)=>`<li><span class="step-n">${i+1}</span>${s}</li>`).join('')}
+    </ul>` : ''}
+    ${m.tip ? `<div class="chef-tip"><b>👨‍🍳 เชฟบอก:</b> ${m.tip}</div>` : ''}
+    ` : ''}
+  </div>`;
+}
+
+// ─── RENDER GROCERY ─────────────────────────────────────
+function renderGrocery(gid){
+  const container = document.getElementById(gid);
+  if(!container || container.dataset.rendered) return;
+  container.dataset.rendered='1';
+  const data = groceries[gid];
+  let html = `<div class="budget-tip">💡 ${data.budget}</div>`;
+  data.sections.forEach(sec=>{
+    html += `<div class="g-card"><div class="g-cat">${sec.cat}</div><div class="g-items">
+      ${sec.items.map(it=>`<span class="g-tag ${it.c==='prot'?'gt-prot':it.c==='carb'?'gt-carb':it.c==='pantry'?'gt-pantry':'gt-veg'}">${it.n} <span style="opacity:.6;font-size:11px">${it.q||''}</span></span>`).join('')}
+    </div></div>`;
+  });
+  container.innerHTML = html;
+}
+
+// ─── NAVIGATION ─────────────────────────────────────────
+function showSection(id, btn){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.tnav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  if(id==='meals'){
+    const activeW = document.querySelector('.week-view.active');
+    if(activeW) renderWeek(activeW.id, WEEK_COLORS[parseInt(activeW.id.replace('w',''))-1]);
+  }
+  if(id==='grocery'){
+    const activeG = document.querySelector('.grocery-view.active');
+    if(activeG) renderGrocery(activeG.id);
+  }
+}
+
+function showWeek(id, btn){
+  document.querySelectorAll('.week-view').forEach(v=>{v.classList.remove('active');v.style.display='none';});
+  document.querySelectorAll('#weekNav .wnav-btn').forEach(b=>b.classList.remove('active'));
+  const el = document.getElementById(id);
+  el.classList.add('active'); el.style.display='block';
+  btn.classList.add('active');
+  renderWeek(id, WEEK_COLORS[parseInt(id.replace('w',''))-1]);
+}
+
+function showGrocery(id, btn){
+  document.querySelectorAll('.grocery-view').forEach(v=>{v.classList.remove('active');v.style.display='none';});
+  document.querySelectorAll('#groceryNav .wnav-btn').forEach(b=>b.classList.remove('active'));
+  const el = document.getElementById(id);
+  el.classList.add('active'); el.style.display='block';
+  btn.classList.add('active');
+  renderGrocery(id);
+}
+
+function toggleDay(hdr){
+  const body = hdr.nextElementSibling;
+  const arr = hdr.querySelector('.day-arr');
+  const open = body.classList.toggle('open');
+  arr.classList.toggle('open', open);
+}
+
+// ─── INIT ────────────────────────────────────────────────
+// Show week 1 on first load of meals tab
+document.querySelectorAll('.week-view').forEach((v,i)=>{
+  if(i>0){ v.style.display='none'; }
+});
+renderWeek('w1', WEEK_COLORS[0]);
+renderGrocery('g1');
+</script>
+</body>
+</html>
